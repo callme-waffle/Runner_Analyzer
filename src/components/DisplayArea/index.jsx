@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import HorizontalOptionSelector from "../HorizonOption";
 import ServiceInput from "../ServiceInput";
 import { ListMode, LISTMODE_OPTION_SELECTIONS } from "./constant";
+import { SelectionType, useDisplayAreaState } from "./hooks/useDisplayAreaState";
 import { StyledDisplayArea, StyledListArea, StyledSelectionArea } from "./style";
 
 function DisplayArea({ data }) {
@@ -41,6 +42,11 @@ function DisplayArea({ data }) {
 
     return <StyledDisplayArea>
         <StyledSelectionArea>
+            { ( mode === ListMode.logging ) && 
+                <ServiceInput className="uname-input" placeholder="이름을 입력하여 상세기록 확인" 
+                    value={ name } onInput={ onNameInput }
+                /> 
+            }
         </StyledSelectionArea>
         <StyledListArea cols_gap={ list_gap }>
             <ul className="title-row">{
