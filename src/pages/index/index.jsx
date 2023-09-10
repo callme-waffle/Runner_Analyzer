@@ -12,6 +12,7 @@ function Index() {
   } = useDBState();
 
   return <StyledServieWrap>
+    <DisplayArea data={ data } />
   </StyledServieWrap>;
 }
 

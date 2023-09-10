@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import HorizontalOptionSelector from "../HorizonOption";
+import HorizontalOptionSelector from "../HorizontalOption";
 import ServiceInput from "../ServiceInput";
 import { ListMode, LISTMODE_OPTION_SELECTIONS } from "./constant";
 import { SelectionType, useDisplayAreaState } from "./hooks/useDisplayAreaState";
@@ -42,6 +42,15 @@ function DisplayArea({ data }) {
 
     return <StyledDisplayArea>
         <StyledSelectionArea>
+            <HorizontalOptionSelector value={ mode } onOptionClick={ onOptionClick }>
+                { LISTMODE_OPTION_SELECTIONS }
+            </HorizontalOptionSelector>
+            { 
+                ( Object.keys( data.months ).length > 0 ) &&  
+                    <HorizontalOptionSelector value={ month } onOptionClick={ onMonthClick }>
+                        { month_selections }
+                    </HorizontalOptionSelector>
+            }
             { ( mode === ListMode.logging ) && 
                 <ServiceInput className="uname-input" placeholder="이름을 입력하여 상세기록 확인" 
                     value={ name } onInput={ onNameInput }
