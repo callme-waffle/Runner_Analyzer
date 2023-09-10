@@ -1,0 +1,1 @@
+export const RANK_TEXT = [ "이병", "일병", "상병", "병장" ];
