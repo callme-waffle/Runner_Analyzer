@@ -16,3 +16,8 @@ export const LISTMODE_OPTION_SELECTIONS = [
     { data: ListMode.statistic, text: "전체통계" },
     { data: ListMode.logging, text: "개인기록" }
 ]
+
+export const SelectionType = {
+    MONTH: "SERVICE/SELCTION_TYPE/MONTH",
+    NAME: "SERVICE/SELECTION_TYPE/NAME",
+}

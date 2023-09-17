@@ -30,10 +30,6 @@ function HorizontalOptionSelector({ children, value = SELECTION_DEFAULT.data, on
         setIsOpen( selected ? false : true );
     }, [ value ]);
 
-    useEffect(() => {
-        console.log( "selection", selection );
-    }, [ selection ]);
-
     return <StyledHorizontalOptionSelector { ...props }>{
         children.map( ({ data, text }) => 
             <div 

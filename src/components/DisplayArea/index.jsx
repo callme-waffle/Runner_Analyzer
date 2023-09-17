@@ -1,74 +1,26 @@
-import { useEffect, useState } from "react";
-import HorizontalOptionSelector from "../HorizontalOption";
-import ServiceInput from "../ServiceInput";
-import { ListMode, LISTMODE_OPTION_SELECTIONS } from "./constant";
-import { SelectionType, useDisplayAreaState } from "./hooks/useDisplayAreaState";
-import { StyledDisplayArea, StyledListArea, StyledSelectionArea } from "./style";
+import { createContext, useState } from "react";
+import { ListMode } from "./constant";
+import { StyledDisplayArea } from "./style";
+import ListArea from "./area/ListArea";
+import SelectionArea from "./area/SelectionArea";
+
+import { useSelectionState } from "./hooks/useSelectionState";
+
+export const SelectionContext = createContext([ { month: null, name: null }, () => {} ]);
+export const ListModeContext = createContext([ ListMode.default, () => {} ]);
 
 function DisplayArea({ data }) {
 
-    const {
-        data: { list, mode, title, month_selections },
-        selection: { month, name },
-        dispatch: { setMode, setSelection }
-    } = useDisplayAreaState( data );
-
-    const onOptionClick = ( mode ) => {
-        setMode( mode );
-    }
-
-    const onMonthClick = ( { year, month } ) => {
-        setSelection( SelectionType.MONTH, { year, month });
-    }
-
-    const onNameInput = ( v ) => {
-        if ( v.length === 0 )
-            return setSelection( SelectionType.NAME,  null );
-        return setSelection( SelectionType.NAME,  v );
-    }
-
-    const onStatClick = ( content ) => {
-        setSelection( SelectionType.NAME,  content[ 0 ] );
-        setMode( ListMode.logging );
-    }
-
-    const [ list_gap, setListlist_gap ] = useState( Array.from({ length: title.length }).map( _ => `calc( 100% / 5 - 10px )` ) );
-    useEffect(() => {
-        setListlist_gap( 
-            Array.from({ length: title.length })
-            .map( _ => `calc( 100% / 5 - 10px )` ) 
-        );
-    }, [ title ]);
+    const listmodeState = useState( ListMode.default );
+    const selectionState = useSelectionState();
 
     return <StyledDisplayArea>
-        <StyledSelectionArea>
-            <HorizontalOptionSelector value={ mode } onOptionClick={ onOptionClick }>
-                { LISTMODE_OPTION_SELECTIONS }
-            </HorizontalOptionSelector>
-            { 
-                ( Object.keys( data.months ).length > 0 ) &&  
-                    <HorizontalOptionSelector value={ month } onOptionClick={ onMonthClick }>
-                        { month_selections }
-                    </HorizontalOptionSelector>
-            }
-            { ( mode === ListMode.logging ) && 
-                <ServiceInput className="uname-input" placeholder="이름을 입력하여 상세기록 확인" 
-                    value={ name } onInput={ onNameInput }
-                /> 
-            }
-        </StyledSelectionArea>
-        <StyledListArea cols_gap={ list_gap }>
-            <ul className="title-row">{
-                    title.map( title => <li>{ title }</li> )
-            }</ul>
-            <section className="list-area">{
-                list.map( ( content ) =>
-                    <ul className="list-row">{
-                        content.map( text => <li onClick={ () => onStatClick( content ) }>{ text }</li> )
-                    }</ul>
-                )
-            }</section>
-        </StyledListArea>
+        <ListModeContext.Provider value={ listmodeState }>
+            <SelectionContext.Provider value={ selectionState }>
+                <SelectionArea/>
+                <ListArea/>
+            </SelectionContext.Provider>
+        </ListModeContext.Provider>
     </StyledDisplayArea>
 }
 
