@@ -2,10 +2,10 @@ import { useContext, useEffect } from "react";
 import ServiceInput from "../../../ServiceInput";
 import HorizontalOptionSelector from "../../../HorizontalOption";
 import { StyledSelectionArea } from "./style";
-import { ListModeContext, SelectionContext } from "../..";
+import { ListModeContext, SelectionContext } from "../../index";
 import { LISTMODE_OPTION_SELECTIONS, ListMode, SelectionType } from "../../constant";
 import { DBContext } from "../../../../pages/index";
-import { getMonthSelections } from "../../logic";
+import { getMonthSelections } from "./logic";
 
 function SelectionArea() {
 

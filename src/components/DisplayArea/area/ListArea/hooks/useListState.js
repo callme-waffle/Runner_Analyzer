@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ListMode, ListTitle } from "../../../constant";
-import { convertToLogList, convertToStatisticList } from "../../../logic";
+import { convertToLogList, convertToStatisticList } from "../logic";
 import { DBContext } from "../../../../../pages/index";
 
 export const useListState = ( mode, selection ) => {

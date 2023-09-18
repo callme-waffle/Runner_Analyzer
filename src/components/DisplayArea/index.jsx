@@ -9,7 +9,7 @@ import { useSelectionState } from "./hooks/useSelectionState";
 export const SelectionContext = createContext([ { month: null, name: null }, () => {} ]);
 export const ListModeContext = createContext([ ListMode.default, () => {} ]);
 
-function DisplayArea({ data }) {
+function DisplayArea() {
 
     const listmodeState = useState( ListMode.default );
     const selectionState = useSelectionState();
