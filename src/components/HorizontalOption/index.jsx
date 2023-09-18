@@ -13,7 +13,7 @@ function HorizontalOptionSelector({ children, value = SELECTION_DEFAULT.data, on
         if ( !is_open ) {
             setIsOpen( true );
             setSelection( SELECTION_DEFAULT );
-            return;
+            return onOptionClick( SELECTION_DEFAULT.data );
         }
 
         // onOptionClick이 있을 경우, 부모 컴포넌트에서 값이 update된 이후 값 설정
@@ -24,7 +24,7 @@ function HorizontalOptionSelector({ children, value = SELECTION_DEFAULT.data, on
         setSelection( children.find( v => ( v.data === data ) ) );
     }, [ children, is_open ] );
 
-    useEffect(() => {
+    useEffect(() => { // 부모 컴포넌트에서 값이 update되어 전파되었을 때, 이후과정 실행
         const selected = children.find( v => isValuesSame( v.data, value ) );
         setSelection( selected || SELECTION_DEFAULT );
         setIsOpen( selected ? false : true );

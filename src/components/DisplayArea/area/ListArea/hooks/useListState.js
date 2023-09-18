@@ -31,5 +31,9 @@ export const useListState = ( mode, selection ) => {
         setList( new_list );
     }, [ month, name, mode ]);
 
+    useEffect(() => {
+        console.log("list updated", list);
+    }, [ list ]);
+
     return [ list, list_title ];
 }

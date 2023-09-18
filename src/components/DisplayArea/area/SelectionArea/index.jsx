@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ServiceInput from "../../../ServiceInput";
 import HorizontalOptionSelector from "../../../HorizontalOption";
 import { StyledSelectionArea } from "./style";
@@ -16,12 +16,12 @@ function SelectionArea() {
     const { months } = useContext( DBContext );
     const month_selections = getMonthSelections( months );
 
-    const onOptionClick = ( mode ) => {
+    const onOptionClick = ( mode = ListMode.default ) => {
         setMode( mode );
     }
 
-    const onMonthClick = ( { year, month } ) => {
-        setSelection( SelectionType.MONTH, { year, month });
+    const onMonthClick = ( month_selection = { year: -1, month: -1 } ) => {
+        setSelection( SelectionType.MONTH, month_selection );
     }
 
     const onNameInput = ( v ) => {

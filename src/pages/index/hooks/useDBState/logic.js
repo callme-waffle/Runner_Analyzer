@@ -4,13 +4,14 @@ const isChatDateChanged = ( text ) => text.includes("요일 ---------------");
 const isChatRunLog = ( text ) => text.includes("뜀걸음");
 
 const getLogDate = ( chat ) => {
-    const date_text = chat
+    const date_text = chat.slice( chat.indexOf("--------------- ") )
         .replaceAll("--------------- ", "").replaceAll(" ---------------", "")
         .replaceAll("년 ", "-")
         .replaceAll("월 ", "-")
         .replaceAll("일 ", "-")
         .slice( 0, -4 );
 
+    console.log(date_text);
     return new Date( date_text );
 }
 
@@ -71,7 +72,7 @@ const updateUserLog = ( db, info ) => {
 }
 
 export const parseUserRunLog = ( text ) => {
-    const talk = text.split("\n");
+    const talk = text.split("\n[");
     const logs = {};
     const months = {};
 

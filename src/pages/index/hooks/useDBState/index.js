@@ -5,9 +5,9 @@ export const useDBState = () => {
 
     const[ data, setData ] = useState({ months: {}, logs: {} });
 
-    // useEffect(() => {
-    //     console.log( "data", data );
-    // }, [ data ]);
+    useEffect(() => {
+        console.log( "data", data );
+    }, [ data ]);
 
     const onValueChanged = ( text ) => {
         const user_logs = parseUserRunLog( text );
