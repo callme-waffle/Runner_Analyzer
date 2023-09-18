@@ -4,15 +4,21 @@ const isChatDateChanged = ( text ) => text.includes("요일 ---------------");
 const isChatRunLog = ( text ) => text.includes("뜀걸음");
 
 const getLogDate = ( chat ) => {
-    const date_text = chat.slice( chat.indexOf("--------------- ") )
-        .replaceAll("--------------- ", "").replaceAll(" ---------------", "")
-        .replaceAll("년 ", "-")
-        .replaceAll("월 ", "-")
-        .replaceAll("일 ", "-")
-        .slice( 0, -4 );
+    const chk_text = chat.slice( chat.indexOf( "--------------- " ) );
+    const year_idx = chk_text.indexOf("년 ");
+    const month_idx = chk_text.indexOf("월 ");
+    const date_idx = chk_text.indexOf("일 ");
 
-    console.log(date_text);
-    return new Date( date_text );
+    const year_txt = chk_text.substr( year_idx-4, 4 );
+    const month_txt = chk_text.slice( year_idx+2, month_idx );
+    const date_txt = chk_text.slice( month_idx+2, date_idx );
+
+    const year = Number( year_txt );
+    const month = Number( month_txt );
+    const date = Number( date_txt );
+
+    const parsed_date = new Date( `${ year }-${ month }-${ date }` );
+    return parsed_date;
 }
 
 const getChatWords = ( chat ) => {
