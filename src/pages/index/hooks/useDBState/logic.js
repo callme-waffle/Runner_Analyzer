@@ -33,47 +33,57 @@ const getRunInfo = ( words ) => {
     
     const runner_list = [];
     words.forEach( text => {
+        // 이미 뜀걸음 기록대상자 확인이 완료된 경우: 반복중지
         if ( is_runner_checked ) return;
-        if ( RANK_TEXT.includes( text ) ) {
+        
+        // 현재 확인중인 단어가 계급인 경우: 계급 update
+        if ( RANK_TEXT.includes( text ) ) { 
             curr_rank = text;
             return;
         }
-        if ( text === "동" || text.length == 0 ) return;
+
+        // 설정된 계급이 없으면: 계급이 설정될 때 까지 이동
         if ( !curr_rank ) return;
 
+        // 현재 단어가 '동' 이거나 띄어쓰기 공백만 있는 경우: 다음 반복으로 이동
+        if ( text === "동" || text.length == 0 ) return;
+
+        // 현재 단어의 시작이 숫자인 경우: 기록대상자 확인이 끝난 것으로 간주하고 반복중지
         if ( !isNaN( text[0] ) ) {
             is_runner_checked = true;
             return;
         }
+
+        // 기록대상자 목록에 현재 단어를 사용자명으로 하여 추가
         runner_list.push({ rank: curr_rank, name: text });
     });
 
     const dist = Number( ( words.find( a => a.includes("km") ) || "" ).replaceAll("km", "") );
 
-    return {
-        list: runner_list,
-        dist
-    };
+    return { list: runner_list, dist };
 }
 
-const updateUserLog = ( db, info ) => {
+const addUserLogToDB = ( db, info, chat ) => {
     const { date, dist, list } = info;
     list.forEach( ({ rank, name: runner }) => {
+        // 전체 통계정보 추가
         if ( !db[ runner ] )
-            db[ runner ] = { total: 0, rank, month_stat: {}, logs: [] }
+            db[ runner ] = { total: 0, rank, month_stat: {}, month_cnt: {}, logs: [] }
         
         db[ runner ].total += dist;
-        db[ runner ].logs.push( { date, dist } );
+        db[ runner ].logs.push( { date, dist, chat } );
 
+        // 월간통계정보 추가
         const y = date.getFullYear();
         const m = date.getMonth()+1;
         if ( !db[ runner ].month_stat[ y ] )
             db[ runner ].month_stat[ y ] = {};
-
+    
         if ( !db[ runner ].month_stat[ y ][ m ] )
-            db[ runner ].month_stat[ y ][ m ] = 0;
+            db[ runner ].month_stat[ y ][ m ] = { dist: 0, cnt: 0 };
 
-        db[ runner ].month_stat[ y ][ m ] += dist;
+        db[ runner ].month_stat[ y ][ m ].dist += dist; // 월간 누적거리
+        db[ runner ].month_stat[ y ][ m ].cnt++; // 월간 누적횟수
     } );
 }
 
@@ -84,6 +94,7 @@ export const parseUserRunLog = ( text ) => {
 
     let date = undefined;
     talk.forEach( (chat) => {
+        // 현재 채팅이 날짜기준선인 경우: 기록날짜 update
         if ( isChatDateChanged( chat ) ){
             date = getLogDate( chat );
 
@@ -96,14 +107,18 @@ export const parseUserRunLog = ( text ) => {
             months[y][m]++;
         }
 
+        // 현재 채팅이 뜀걸음기록이 아닌경우: pass
         if ( !isChatRunLog( chat ) ) return;
 
+        // 채팅에서 뜀걸음기록 추출
         const chat_words = getChatWords( chat );
-
         const { list: runner_list, dist } = getRunInfo( chat_words );
-        if ( isNaN( dist ) ) return; // 뜀걸음 기록에 KM단위 거리표기가 없는 경우
         
-        updateUserLog( logs, { date, dist, list: runner_list } );
+        // 뜀걸음 기록에 KM단위 거리표기가 없는 경우: pass
+        if ( isNaN( dist ) ) return; 
+        
+        // 뜀걸음 기록 반영
+        addUserLogToDB( logs, { date, dist, list: runner_list }, chat );
     });
 
     return { months, logs };

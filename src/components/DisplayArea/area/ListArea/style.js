@@ -52,11 +52,24 @@ export const StyledListArea = styled.section`
         }
     }
 
+    & .list-row {
+        & li:last-child {
+            width: max-content !important;
+            max-width: 50%;
+            text-align: left !important;
+        }
+    }
+
     & li {
         height: fit-content;
 
         text-align: center;
         user-select: none;
+        white-space: nowrap;
+
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
 
         &:first-child {
             cursor: pointer;

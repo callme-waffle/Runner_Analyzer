@@ -18,7 +18,7 @@ function ListArea() {
         setMode( ListMode.logging );
     }
 
-    return <StyledListArea cols_gap={ list_gap }>
+    return <StyledListArea cols_gap={ list_gap } className="list-area">
         <ul className="title-row">{
                 title_list.map( title => <li>{ title }</li> )
         }</ul>

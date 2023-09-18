@@ -8,8 +8,8 @@ export const ListMode = {
 
 export const ListTitle = {
     [ ListMode.default ]: [],
-    [ ListMode.statistic ]: [ "이름", "계급", "거리", "통과일시", "통과여부" ],
-    [ ListMode.logging ]: [ "기록일자", "기록거리" ]
+    [ ListMode.statistic ]: [ "이름", "계급", "누적거리", "기록횟수", "통과여부" ],
+    [ ListMode.logging ]: [ "기록일자", "기록거리", "메세지 기록" ]
 }
 
 export const LISTMODE_OPTION_SELECTIONS = [
