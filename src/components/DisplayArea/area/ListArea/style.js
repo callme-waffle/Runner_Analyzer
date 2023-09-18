@@ -9,6 +9,8 @@ export const StyledListArea = styled.section`
     display: grid;
     grid-template-rows: calc( 20px + 2em + ( 1.2 * 1.25em ) ) auto;
     
+    overflow: hidden;
+    
     & > .list-area {
         width: 100%;
         max-height: 100%;
