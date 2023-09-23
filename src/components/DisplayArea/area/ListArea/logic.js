@@ -9,7 +9,7 @@ export const convertToStatisticList = ( logs, selection ) => {
                         log.rank, // 1: 계급
                         `${ log.month_stat[ year ][ month ].dist }km`, // 2: 월간 누적기록
                         `${ log.month_stat[ year ][ month ].cnt }회`, // 3: 월간 누적횟수
-                        ( log.month_stat[ year ][ month ] >= RUN_DIST ) ? "통과" : "미통과", // 4: 통과여부
+                        ( log.month_stat[ year ][ month ].dist >= RUN_DIST ) ? "통과" : "미통과", // 4: 통과여부
                         { year: Number( year ), month: Number( month ) }, // 5: 기록 해당월(필터링목적)
                 ] )
             )
@@ -31,5 +31,5 @@ export const convertToLogList = ( logs, selection, name ) => {
 
     return udata.logs
         .filter( v => ( v.date.getFullYear() === year && v.date.getMonth() === (month-1) ) )
-        .map( v => [ `${ year }년 ${ month }월 ${ v.date.getDate() }일`, `${ v.dist }km`, `[${v.chat}` ] );
+        .map( v => [ `${ year }년 ${ month }월 ${ v.date.getDate() }일`, `${ v.dist }km`, v.chat ] );
 };
