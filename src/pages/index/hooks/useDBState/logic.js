@@ -1,64 +1,108 @@
-import { RANK_TEXT } from "./constant";
+import { EXPORT_DEVICE } from "./constant";
+import { CHK_RUNLOGS_EXP, FILTERING_CHATLINES_EXP, EXPORT_DEVICE_CHK_EXP, RUNNERS_LIST_EXP, RUN_DIST_EXP, RUN_DATES_EXP, CHK_PCLOGS_TIMELINE_EXP } from "./regex";
 
-const isChatRunLog = ( text ) => text.includes("뜀걸음");
+const getChatType = ( text ) => {
+    // 현재 기준을 모르므로, 임시로 Enter를 기준으로 chat 구분
+    const tmp_chats = text.split("\n");
 
-const getChatWords = ( chat ) => {
-    const chat_sp = chat.indexOf( "]", chat.indexOf("]") + 1 );
-    const chat_content = chat.slice( chat_sp+1 );
-    return chat_content.split( " " );
+    let i = 0;
+    while( tmp_chats.length > i ) {
+        // 채팅에 '충성!' 단어가 있으면, 해당 채팅을 기준으로 추출단말기 구분
+        if ( tmp_chats[i].includes("충성!") )
+            return (
+                // [사용자명] [오전~] => PC에서 내보내기
+                ( EXPORT_DEVICE_CHK_EXP[ EXPORT_DEVICE.PC ].test( text ) ) ? EXPORT_DEVICE.PC :
+                // yyyy년 mm월 dd일 오전~ => Android에서 내보내기
+                ( EXPORT_DEVICE_CHK_EXP[ EXPORT_DEVICE.ANDROID ].test( text ) ) ? EXPORT_DEVICE.ANDROID :
+                // yyyy. mm. dd. 오전~ => IOS에서 내보내기
+                ( EXPORT_DEVICE_CHK_EXP[ EXPORT_DEVICE.IOS ].test( text ) ) ? EXPORT_DEVICE.IOS :
+                // 미지원 형식
+                null
+            );
+        else i++;
+    }
+    return null;
 }
 
-const getRunInfo = ( words ) => {
-    let curr_rank = undefined;
-    let is_runner_checked = false;
+const isChatRunLog = ( chat ) => CHK_RUNLOGS_EXP.test( chat );
+const isChatTimeline = ( chat ) => CHK_PCLOGS_TIMELINE_EXP.test( chat );
+
+const parseToDatetime = ( time_text ) => {
+    const isAm = /(오전)|(AM)/i.test( time_text );
+    const time_idx = time_text.search(/오전|오후|AM|PM/i);
+    return new Date(`${
+        time_text.slice( 0, time_idx ).replaceAll( /[년월일]/g, "." )
+    } ${ time_text.slice( time_idx + 3 ) } ${ isAm ? "AM" : "PM" }`);
+}
+
+const ORIGIN_CHAT_CONVERT_FNC = {
+    [ EXPORT_DEVICE.ANDROID ]: ( v ) => ({
+        date: parseToDatetime( v.slice( 0, v.indexOf(",") ) ),
+        chat: v.slice( v.indexOf(" : ", v.indexOf(",")) + 3 )
+    }),
+    [ EXPORT_DEVICE.IOS ]: ( v ) => ({
+        date: parseToDatetime( v.slice( 0, v.indexOf(",") ) ),
+        chat: v.slice( v.indexOf(" : ", v.indexOf(",")) + 3 )
+    })
+}
+
+const getChatFromOriginTalk = ( talk, type ) => {
+    let date;
+    return ( talk.match( FILTERING_CHATLINES_EXP[ type ] ) || [] )
+        .filter( v => isChatRunLog( v ) || isChatTimeline( v ) )
+        .map( ORIGIN_CHAT_CONVERT_FNC[ type ] || ( ( v ) => {
+                if ( isChatTimeline( v ) ) {
+                    date = new Date(
+                        v.slice( 0, v.search( /[월화수목금토일]요일/ ) )
+                        .replaceAll(/\s{0,1}-{15}\s{0,1}/g, "")
+                        .replaceAll( /[년월일]/g, "." )
+                    );
+                    return null;
+                } else return { date, chat: v.slice( v.indexOf( "]", v.indexOf("]") ) + 1 ) }
+            }
+        ) )
+        .filter( v => v );
+}
+
+const getRunInfoByChat = ( chat, date ) => {
+    // 뜀걸음 용사목록 가져오기
+    let curr_rank;
+    const runners = ( chat.match( RUNNERS_LIST_EXP ) || [] )
+        .map( v => v.split(" ") )
+        .map( ( [ rank, name ], i, arr ) => {
+            if ( rank === "동" )
+                return ({ rank: curr_rank, name });
+
+            curr_rank = rank;
+            return ({ rank, name });
+        } );
+
+    // 뜀걸음 거리 가져오기
+    const [ dist ] = chat.match( RUN_DIST_EXP ) || [];
+
+    return { runners, dist: Number( dist?.replace( "km", "" ) ) };
     
-    const runner_list = [];
-    words.forEach( text => {
-        // 이미 뜀걸음 기록대상자 확인이 완료된 경우: 반복중지
-        if ( is_runner_checked ) return;
-        
-        // 현재 확인중인 단어가 계급인 경우: 계급 update
-        if ( RANK_TEXT.includes( text ) ) { 
-            curr_rank = text;
-            return;
-        }
-        
-        // 설정된 계급이 없으면: 계급이 설정될 때 까지 이동
-        if ( !curr_rank ) return;
-        
-        // 현재 단어가 '동' 이거나 띄어쓰기 공백만 있는 경우: 다음 반복으로 이동
-        if ( text === "동" || text.length == 0 ) return;
-        
-        // 현재 단어의 시작이 숫자인 경우: 기록대상자 확인이 끝난 것으로 간주하고 반복중지
-        if ( !isNaN( text[0] ) ) {
-            is_runner_checked = true;
-            return;
-        }
-
-        // 기록대상자 목록에 현재 단어를 사용자명으로 하여 추가
-        runner_list.push({ rank: curr_rank, name: text });
-    });
-
-    const dist = Number( ( words.find( a => a.includes("km") ) || "" ).replaceAll("km", "") );
-
-    return { list: runner_list, dist };
+    // // 뜀걸음 일시 가져오기: 향후 update
+    const mentioned_rundate = ( chat.match( RUN_DATES_EXP ) || [] );
+    // const rundate = () ? mentioned_rundate[0]
 }
 
 const addUserLogToDB = ( db, chat, date ) => {
     // 채팅에서 뜀걸음기록 추출
-    const chat_words = getChatWords( chat );
-    const { list: runner_list, dist } = getRunInfo( chat_words );
+    const { runners, dist } = getRunInfoByChat( chat, date );
     
     // 뜀걸음 기록에 KM단위 거리표기가 없는 경우: pass
     if ( isNaN( dist ) ) return; 
 
-    runner_list.forEach( ({ rank, name: runner }) => {
+    runners.forEach( ({ rank, name: runner }) => {
+        console.log( rank, runner, dist, date );
         // 전체 통계정보 추가
         if ( !db[ runner ] )
             db[ runner ] = { total: 0, rank, month_stat: {}, month_cnt: {}, logs: [] }
         
         db[ runner ].total += dist;
         db[ runner ].logs.push( { date, dist, chat } );
+        db[ runner ].rank = rank;
 
         // 월간통계정보 추가
         const y = date.getFullYear();
@@ -74,93 +118,25 @@ const addUserLogToDB = ( db, chat, date ) => {
     } );
 }
 
-const parseMobileExportLog = ( text ) => {
-    const talk = text.split("\n");
+export const parseUserRunLog = ( talk ) => {    
+    const chat_format = getChatType( talk );
+    const chats = getChatFromOriginTalk( talk, chat_format );
+
     const logs = {};
     const months = {};
-
-    talk.forEach( ( full_chat ) => {
-        // 현재 채팅이 뜀걸음기록이 아닌경우: pass
-        if ( !isChatRunLog( full_chat ) ) return;
-
-        const time_position = full_chat.indexOf(",");
-        const split_position = full_chat.indexOf( ":", time_position );
-        const date = new Date( full_chat.slice( 0, split_position ).split("오")[0] );
-        const time_data = "오" + full_chat.slice( 0, time_position ).split("오")[1];
-        const chat = full_chat.slice( split_position + 1 );
-
+    
+    chats.forEach( ({ date, chat }) => {
         // 기록날짜 추가
-        if ( !isNaN(date.getFullYear()) ) {
+        const y = date.getFullYear();
+        const m = date.getMonth()+1;
 
-            const y = date.getFullYear();
-            const m = date.getMonth()+1;
-    
-            if ( !months[y] ) months[y] = {};
-            if ( !months[y][m] ) months[y][m] = 0;
-    
-            months[y][m]++;
-            
-        }
-
-        // 뜀걸음 기록 반영
-        addUserLogToDB( logs, `[${ time_data }]${ chat }`, date );
-    } )
-
-    return { months, logs };
-}
-
-const parsePCExportLog = ( text ) => {
-    const isChatDateChanged = ( text ) => text.includes("요일 ---------------");
-    const getLogDate = ( chat ) => {
-        const chk_text = chat.slice( chat.indexOf( "--------------- " ) );
-        const year_idx = chk_text.indexOf("년 ");
-        const month_idx = chk_text.indexOf("월 ");
-        const date_idx = chk_text.indexOf("일 ");
-    
-        const year_txt = chk_text.substr( year_idx-4, 4 );
-        const month_txt = chk_text.slice( year_idx+2, month_idx );
-        const date_txt = chk_text.slice( month_idx+2, date_idx );
-    
-        const year = Number( year_txt );
-        const month = Number( month_txt );
-        const date = Number( date_txt );
-    
-        const parsed_date = new Date( `${ year }-${ month }-${ date }` );
-        return parsed_date;
-    }
-
-    const talk = text.split("\n[");
-    const logs = {};
-    const months = {};
-
-    let date = undefined;
-    talk.forEach( (chat) => {
-        // 현재 채팅이 날짜기준선인 경우: 기록날짜 update
-        if ( isChatDateChanged( chat ) ){
-            date = getLogDate( chat );
-
-            const y = date.getFullYear();
-            const m = date.getMonth()+1;
-
-            if ( !months[y] ) months[y] = {};
-            if ( !months[y][m] ) months[y][m] = 0;
-
-            months[y][m]++;
-        }
-
-        // 현재 채팅이 뜀걸음기록이 아닌경우: pass
-        if ( !isChatRunLog( chat ) ) return;
+        if ( !months[y] ) months[y] = {};
+        if ( !months[y][m] ) months[y][m] = 0;
+        months[y][m]++;
         
         // 뜀걸음 기록 반영
-        addUserLogToDB( logs, chat.slice( chat.indexOf("[") ), date );
+        addUserLogToDB( logs, chat, date );
     });
-
+    
     return { months, logs };
-}
-
-export const parseUserRunLog = ( text ) => {
-    if ( !text.split("\n")[0].includes( ".txt" ) )
-        return parsePCExportLog( text );
-
-    return parseMobileExportLog( text );
 }
