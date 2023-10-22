@@ -1,24 +1,25 @@
-import { createContext, useState } from "react";
-import DisplayArea from "../../components/DisplayArea";
-import TextArea from "../../components/TextArea";
-import { useDBState } from "./hooks/useDBState";
-import { StyledServieWrap } from "./style";
+import { IconCalendar } from "@tabler/icons-react";
+import SelectionBlock from "../../components/molecule/SelectionBlock";
 
-export const DBContext = createContext({ months: {}, logs: {} });
 
-function Index() {
-
-  const {
-    value: { data },
-    handlers: { onValueChanged }
-  } = useDBState();
-
-  return <StyledServieWrap>
-    <TextArea onChange={ onValueChanged }/>
-    <DBContext.Provider value={ data }>
-      <DisplayArea/>
-    </DBContext.Provider>
-  </StyledServieWrap>;
+const IndexPage = () => {
+    return <section style={{ width: "500px" }}>
+        <SelectionBlock 
+            icon={ <IconCalendar/> }
+            selections={ [
+                { text: "text1", value: "value1" },
+                { text: "text2", value: "value2" },
+                { text: "text3", value: "value3" },
+                { text: "text4", value: "value4" },
+                { text: "text5", value: "value5" },
+                { text: "text6", value: "value6" },
+                { text: "text6", value: "value6" },
+                { text: "text6", value: "value6" },
+                { text: "text6", value: "value6" },
+                { text: "text6", value: "value6" },
+            ] }
+        >검색 연도</SelectionBlock>
+    </section>
 }
 
-export default Index;
+export default IndexPage;
