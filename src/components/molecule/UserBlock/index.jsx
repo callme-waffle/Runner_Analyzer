@@ -1,5 +1,4 @@
 import * as S from "./style";
-import * as L from "./logic.js";
 
 import ServiceBlock from "../../atom/ServiceBlock";
 

@@ -1,7 +1,6 @@
 import { ReactElement, HTMLAttributes } from "react";
 
 import * as S from "./style";
-import * as L from "./logic.js";
 import { SERVICE_BLOCK_TYPE } from "./constant";
 
 /**

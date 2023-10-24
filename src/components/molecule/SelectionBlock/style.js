@@ -15,6 +15,10 @@ export const SelectionBlockBox = styled( ServiceBlockBox )`
         padding: 0.62rem 1rem;
     ` : `` }
 
+    & > .log-keys-area {
+        opacity: 0.5;
+    }
+
     input {
         background-color: transparent;
         outline: none;

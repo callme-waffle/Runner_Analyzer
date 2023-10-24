@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import * as S from "./style";
 
@@ -9,7 +9,7 @@ import { SERVICE_BLOCK_TYPE } from "../../atom/ServiceBlock/constant";
  * @param {{
  * icon: TablerIconComponent,
  * selections: Array<{ text: string, value: any }>
- * children: ReactElements
+ * children: SelectionBlock제목
  * }} param0 
  * @returns 
  */
@@ -19,14 +19,16 @@ const SelectionBlock = ({
 }) => {
 
     const [ isSelectionOpen, setIsSelectionOpen ] = useState( false );
-    const [ value, setValue ] = useState( "" );
+
+    const [ selected, setSelected ] = useState({ text: children, value: null });
 
     const onSelectionBlockBoxClicked = () => {
         setIsSelectionOpen( p => !p );
     }
 
-    const onSelectionClick = ( e, v ) => {
-        console.log(e, v);
+    const onSelectionClick = ( e, o ) => {
+        setSelected( p => ( p.value === o.value ) ? p : o );
+        setIsSelectionOpen( false );
     }
 
     const onSelectionListBoxScroll = ( e ) => {
@@ -41,15 +43,15 @@ const SelectionBlock = ({
         >
             <section className="log-keys-area">
                 { icon || <></> }
-                <span>{ children }</span>
+                <span>{ selected.text }</span>
             </section>
         </S.SelectionBlockBox>
         {
             ( isSelectionOpen ) && <S.SelectionListBox className="selection-list" onWheel={ onSelectionListBoxScroll }>
                 <section className="selection-wrap">{
-                    selections.map( ({ text, value }) => 
-                        <div className="selection-block" onClick={ ( e ) => onSelectionClick( e, value ) }>
-                            { text }
+                    selections.map( sel => 
+                        <div className="selection-block" onClick={ ( e ) => onSelectionClick( e, sel ) }>
+                            { sel.text }
                         </div> 
                     )
                 }</section>

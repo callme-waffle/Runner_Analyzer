@@ -16,6 +16,8 @@ export const ServiceBlockBox = styled.div`
     };
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
 
+    font-weight: 700;
+
     cursor: pointer;
 
     & > .log-keys-area {
@@ -23,7 +25,6 @@ export const ServiceBlockBox = styled.div`
         align-items: flex-start;
         gap: 1.25rem;
 
-        opacity: 0.5;
         user-select: none;
     }
 
