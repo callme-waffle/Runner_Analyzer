@@ -7,6 +7,10 @@ export const SelectionBlockArea = styled.section`
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
+
+    & * {
+        white-space: nowrap;
+    }
 `;
 
 export const SelectionBlockBox = styled( ServiceBlockBox )`

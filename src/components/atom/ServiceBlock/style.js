@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { SERVICE_BLOCK_TYPE } from "./constant";
 
 export const ServiceBlockBox = styled.div`
-    width: 24.375rem;
     padding: 1.25rem 1.875rem;
+    box-sizing: border-box;
 
     display: flex;
     justify-content: space-between;
@@ -24,8 +24,6 @@ export const ServiceBlockBox = styled.div`
         display: flex;
         align-items: flex-start;
         gap: 1.25rem;
-
-        user-select: none;
     }
 
     & > .log-value-area {
