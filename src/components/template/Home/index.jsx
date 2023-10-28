@@ -15,7 +15,7 @@ const HomeTemplate = () => {
     const [ options, setOptions ] = useState({ mode: ListContentMode.monthly });
     const [ mode, setMode ] = useState( options?.mode );
 
-    const [ is_list_ready, list_data ] = useListDataState();
+    const [ is_list_ready, list_data ] = useListDataState( options );
     useEffect(() => {
         setMode( options.mode );
     }, [ is_list_ready ]);
