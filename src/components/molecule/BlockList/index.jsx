@@ -19,10 +19,10 @@ import LogBlock from "../LogBlock/index";
  * @param {{ 
  *  mode: ListContentMode, 
  *  children: Array<ListChildFormat[ListContentMode]>
- * } & HTMLAttributes<HTMLTableSectionElement> } param0 
+ * } & HTMLAttributes<HTMLTableSectionElement> } ComponentProps 
  * @returns 
  */
-const BlockList = ({ mode, children, ...props }) => {
+const BlockList = ({ mode, children = [], ...props }) => {
     return <S.BlockListWrap { ...props }>
         <span className="list-title">총 { children.length }{ ListContentUnit[ mode ] }</span>
         <S.BlockList>{

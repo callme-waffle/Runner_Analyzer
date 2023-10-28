@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import * as S from "./style";
 
 import { ListContentMode } from "../../molecule/BlockList/constant"
 import ViewModeSelectorBlock from "../../molecule/ViewModeSelectorBlock";
+import { SearchOptionContext } from "../ListCtrlArea";
 
 const ViewModeSelector = () => {
     
-    const [ selected, setSelected ] = useState( ListContentMode.monthly );
+    const [ options, setOptions ] = useContext( SearchOptionContext );
+    const selected = useMemo(() => options?.mode || ListContentMode.monthly, [ options ]);
 
     const onBlockClick = ( mode ) => {
-        setSelected( mode );
+        setOptions( p => ({ ...p, mode }) );
     }
 
     return <S.SelectorWrap>

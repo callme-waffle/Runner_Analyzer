@@ -2,12 +2,14 @@ import styled from "styled-components";
 
 export const BlockWrap = styled.div`
     &.viewmode-mobile {
+        width: fit-content;
         padding: 0.625rem 1rem;
-
+        
         display: inline-flex;
         justify-content: center;
         align-items: center;
         gap: 1.25rem;
+        flex-grow: 0;
 
         background-color: transparent;
         border-radius: 0.625rem;
@@ -15,6 +17,7 @@ export const BlockWrap = styled.div`
         font-style: normal;
         font-weight: 500;
         line-height: normal;
+        white-space: nowrap;
 
         transition: all .5s ease;
         
@@ -22,8 +25,11 @@ export const BlockWrap = styled.div`
         user-select: none;
 
         &.active {
+            flex-grow: 1;
+
             background: #FFF;
             box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+
         }
     }
 `;

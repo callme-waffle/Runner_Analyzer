@@ -50,7 +50,7 @@ export const HomeContentArea = styled.section`
 
     
     & > .home-viewlist {
-        height: calc( 100% - 2.75rem );
+        height: calc( 100% - 7rem );
     }
 
     & > * {

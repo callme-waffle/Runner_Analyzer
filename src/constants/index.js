@@ -4,15 +4,17 @@ const API_URL = {
     LOG: "/run",
 }
 
-const get_parser = ( uri = "", option = {} ) => `${ 
+const getParser = ( uri = "", option = {} ) => `${ 
     uri 
 }?${ 
     Object.keys( option )
     .map( v => `${ v }=${ option[v] }` )
     .reduce( ( a, b ) => `${a}&${b}`, "" )
+    .replace("&", "")
 }`
 
 export const API_URL_PARSER = {
-    STATISTIC: ( opt ) => get_parser( API_URL.STATISTIC, opt ),
-    MONTHS: ( opt ) => get_parser( API_URL.MONTHS, opt ),
+    STATISTIC: ( opt ) => getParser( API_URL.STATISTIC, opt ),
+    MONTHS: ( opt ) => getParser( API_URL.MONTHS, opt ),
+    LOG: ( opt ) => getParser( API_URL.LOG, opt )
 }

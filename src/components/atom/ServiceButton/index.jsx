@@ -4,7 +4,7 @@ import * as S from "./style";
 
 /**
  * 
- * @param {{ icon: TablerIconComponent, children: any } & HTLMAttributes<HTMLDivElement>} param0 
+ * @param {{ icon: TablerIconComponent, children: any } & HTLMAttributes<HTMLDivElement>} ComponentProps 
  * @returns 
  */
 const ServiceButton = ({ icon, children, ...props }) => {

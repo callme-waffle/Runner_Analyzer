@@ -9,7 +9,7 @@ import ServiceBlock from "../../atom/ServiceBlock";
  * @param { {
  *  index?: number,
  *  value: { name: string, dist: number },
- * } & HTMLAttributes<HTMLDivElement> } param0 
+ * } & HTMLAttributes<HTMLDivElement> } ComponentProps 
  * @returns 
  */
 const UserBlock = ({ index, value: { name, dist }, ...props }) => {

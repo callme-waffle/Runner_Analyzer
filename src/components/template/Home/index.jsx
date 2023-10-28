@@ -13,16 +13,25 @@ import { IconRotate } from "@tabler/icons-react";
 const HomeTemplate = () => {
 
     const [ options, setOptions ] = useState({ mode: ListContentMode.monthly });
-    const mode = useMemo( () => options?.mode || ListContentMode.monthly, [ options ] );
+    const [ mode, setMode ] = useState( options?.mode );
 
+    const [ is_list_ready, setIsListReady ] = useState( false );
     const [ list_data, setListData ] = useState([]);
     useEffect(() => {
-        L.getListDate( options, ( e, v ) => setListData( v ) );
+        setMode( options.mode );
+    }, [ is_list_ready ]);
+
+    const onDataReceived = ( e, v ) => {
+        setListData( v );
+        setIsListReady( true );
+    };
+
+    useEffect(() => {
+        console.log( "options", options );
+        L.getListData( options, onDataReceived );
     }, [ options ]);
 
-    const onOptionChange = useCallback(( options ) => {
-        setOptions( options );
-    }, []);
+    const onOptionChange = useCallback(( options ) => setOptions( options ), []);
 
     const bude_name = "103정보통신단 본부중대";
 

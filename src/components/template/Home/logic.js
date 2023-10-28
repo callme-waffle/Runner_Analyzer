@@ -1,5 +1,6 @@
 import API from "../../../connection";
 import { API_URL_PARSER } from "../../../constants";
+import { ListContentMode } from "../../molecule/BlockList/constant";
 
 
 /**
@@ -16,12 +17,25 @@ import { API_URL_PARSER } from "../../../constants";
  * @param { search_opt } options 
  * @param { ( v: search_opt ) => any } cb
  */
-export const getListDate = async ( options, cb ) => {
+export const getListData = async ( options, cb ) => {
     if ( !(
         ( options.year ) &&
         ( options.month )
     ) ) return false;
 
-    const { data } = await API.get( API_URL_PARSER.STATISTIC( options ) );
-    return cb( null, data?.response?.dists );
+    switch( options.mode ) {
+        case ListContentMode.monthly: {
+            const { data: api_result } = await API.get( API_URL_PARSER.STATISTIC( options ) );
+            const data = api_result?.response?.dists || [];
+            return cb( null, data );
+        }
+        case ListContentMode.individual: {
+            const { data: api_result } = await API.get( API_URL_PARSER.LOG( options ) );
+            console.log( "api_result", api_result );
+            const data = api_result?.response?.dists || [];
+            return cb( null, data );
+        }
+        default:
+            return;
+    }
 }

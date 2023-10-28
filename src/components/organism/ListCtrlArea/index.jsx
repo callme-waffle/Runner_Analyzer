@@ -9,20 +9,11 @@ export const SearchOptionContext = createContext([ {}, () => {} ]);
 
 const ListCtrlArea = ({ mode, onOptionChange }) => {
 
-    const [ option, setOption ] = useState({ mode: ListContentMode.monthly });
-    useEffect(() => { onOptionChange( option ) }, [ option ]);
-
-    useEffect(() => {
-        const date = new Date();
-        setOption( p => ({
-            ...p,
-            year: date.getFullYear(),
-            month: date.getMonth()+1
-        }) );
-    }, []);
+    const [ options, setOptions ] = useState({ mode: ListContentMode.monthly });
+    useEffect(() => { onOptionChange( options ) }, [ options ]);
 
     return <S.ListCtrlArea>
-        <SearchOptionContext.Provider value={[ option, setOption ]}>
+        <SearchOptionContext.Provider value={[ options, setOptions ]}>
             <ViewModeSelector/>
             <SearchSelector/>
         </SearchOptionContext.Provider>
