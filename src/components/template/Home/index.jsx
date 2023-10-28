@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import * as S from "./style";
-import * as L from "./logic";
 
 import { ListContentMode } from "../../molecule/BlockList/constant";
 
@@ -9,27 +8,17 @@ import ListCtrlArea from "../../organism/ListCtrlArea";
 import BlockList from "../../molecule/BlockList";
 import ServiceButton from "../../atom/ServiceButton";
 import { IconRotate } from "@tabler/icons-react";
+import { useListDataState } from "./hooks/useListDataState";
 
 const HomeTemplate = () => {
 
     const [ options, setOptions ] = useState({ mode: ListContentMode.monthly });
     const [ mode, setMode ] = useState( options?.mode );
 
-    const [ is_list_ready, setIsListReady ] = useState( false );
-    const [ list_data, setListData ] = useState([]);
+    const [ is_list_ready, list_data ] = useListDataState();
     useEffect(() => {
         setMode( options.mode );
     }, [ is_list_ready ]);
-
-    const onDataReceived = ( e, v ) => {
-        setListData( v );
-        setIsListReady( true );
-    };
-
-    useEffect(() => {
-        console.log( "options", options );
-        L.getListData( options, onDataReceived );
-    }, [ options ]);
 
     const onOptionChange = useCallback(( options ) => setOptions( options ), []);
 
