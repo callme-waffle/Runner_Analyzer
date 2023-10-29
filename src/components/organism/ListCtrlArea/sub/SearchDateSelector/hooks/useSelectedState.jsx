@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { SELECTOR_OPTION_KEYS, SELECTOR_UNIQUE_KEYS } from "../constant";
-import { SearchOptionContext } from "../../ListCtrlArea";
+import { SearchOptionContext } from "../../../index";
 
 /**
  * @typedef { { [ SELECTOR_UNIQUE_KEYS[ keyof SELECTOR_UNIQUE_KEYS ] ]: { keys: string | null, text: string, value: any } } } SelectedDataType

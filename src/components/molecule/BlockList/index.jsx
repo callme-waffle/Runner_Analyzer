@@ -28,8 +28,8 @@ const BlockList = ({ mode, children = [], ...props }) => {
         <S.BlockList>{
             children.map( ( v, i ) => 
                 ( mode === ListContentMode.monthly ) ?
-                    <UserBlock className="list-block" index={ i+1 } value={ v }/>
-                    : <LogBlock className="list-block" index={ i+1 } value={ v }/>
+                    <UserBlock className="list-block" index={ i+1 } value={ v } key={ i }/>
+                    : <LogBlock className="list-block" index={ i+1 } value={ v } key={ i }/>
             )
         }</S.BlockList>
     </S.BlockListWrap>

@@ -17,7 +17,7 @@ const HomeTemplate = () => {
 
     const [ is_list_ready, list_data ] = useListDataState( options );
     useEffect(() => {
-        setMode( options.mode );
+        if ( is_list_ready ) setMode( options.mode );
     }, [ is_list_ready ]);
 
     const onOptionChange = useCallback(( options ) => setOptions( options ), []);

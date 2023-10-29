@@ -3,16 +3,14 @@ import { IconCalendar } from "@tabler/icons-react";
 
 import * as S from "./style";
 
-import { SearchOptionContext } from "../ListCtrlArea";
-
-import SelectorBlock from "../../molecule/SelectorBlock/index";
+import SelectorBlock from "../../../../molecule/SelectorBlock";
 import { useMonthOptionState } from "./hooks/useMonthOptionState";
 import { useSelectionOpenState } from "./hooks/useSelectionOpenState";
 import { SELECTOR_UNIQUE_KEYS } from "./constant";
 import { useSelectedState } from "./hooks/useSelectedState";
 
 
-const SearchSelector = ({ isChlidSelectionDisabled = true }) => {
+const SearchDateSelector = ({ isChlidSelectionDisabled = true }) => {
     
     const [ curr_select, setCurrSelect ] = useState( null );
     const selections = useMonthOptionState( curr_select );
@@ -69,4 +67,4 @@ const SearchSelector = ({ isChlidSelectionDisabled = true }) => {
     </S.SelectorWrap>
 }
 
-export default SearchSelector;
+export default SearchDateSelector;

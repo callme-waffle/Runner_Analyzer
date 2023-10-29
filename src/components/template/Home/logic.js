@@ -32,7 +32,7 @@ export const getListData = async ( options, cb ) => {
         case ListContentMode.individual: {
             const { data: api_result } = await API.get( API_URL_PARSER.LOG( options ) );
             console.log( "api_result", api_result );
-            const data = api_result?.response?.dists || [];
+            const data = api_result?.response?.data || [];
             return cb( null, data );
         }
         default:

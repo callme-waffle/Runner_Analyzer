@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
-import API from "../../../../connection";
-import { API_URL_PARSER } from "../../../../constants";
+import API from "../../../../../../connection";
+import { API_URL_PARSER } from "../../../../../../constants";
 
 import { SELECTOR_UNIQUE_KEYS } from "../constant";
 

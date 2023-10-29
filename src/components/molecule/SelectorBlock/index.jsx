@@ -1,7 +1,7 @@
 import { useMemo, useState, MouseEvent, useEffect, HTMLAttributes, HTMLTableSectionElement } from "react";
 
 import * as S from "./style";
-import * as ParentS from "../../organism/SearchSelector/style";
+import * as ParentS from "../../organism/ListCtrlArea/sub/SearchDateSelector/style";
 
 import { SERVICE_BLOCK_TYPE } from "../../atom/ServiceBlock/constant";
 
