@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ListContentMode } from "../../molecule/BlockList/constant";
 
 export const ListCtrlArea = styled.section`
     width: 100%;
@@ -6,6 +7,6 @@ export const ListCtrlArea = styled.section`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.875rem;
+    gap: calc( 1.875rem / ${ ({ mode }) => ( mode === ListContentMode.individual ) ? 1 : 2 });
     align-self: stretch;
 `;

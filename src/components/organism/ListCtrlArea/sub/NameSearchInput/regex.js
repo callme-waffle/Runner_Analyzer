@@ -1,0 +1,1 @@
+export const UNAVAILABLE_STR_CHK = /[^A-Za-z가-힣0-9]/;

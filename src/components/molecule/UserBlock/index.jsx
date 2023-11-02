@@ -1,7 +1,5 @@
 import { HTMLAttributes, HTMLDivElement } from "react";
 
-import * as S from "./style";
-
 import ServiceBlock from "../../atom/ServiceBlock";
 
 /**

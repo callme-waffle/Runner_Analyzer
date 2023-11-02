@@ -19,7 +19,7 @@ export const BlockWrap = styled.div`
         line-height: normal;
         white-space: nowrap;
 
-        transition: all .5s ease;
+        transition: all .2s ease;
         
         cursor: pointer;
         user-select: none;

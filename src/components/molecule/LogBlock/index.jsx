@@ -1,10 +1,9 @@
-import * as S from "./style";
 import * as L from "./logic.js";
 
 import ServiceBlock from "../../atom/ServiceBlock";
 
-const LogBlock = ({ value: { date, name, dist } }) => {
-    return <ServiceBlock>
+const LogBlock = ({ value: { date, name, dist }, ...props }) => {
+    return <ServiceBlock blockProps={ props }>
         <section className="log-keys-area">
             <span>{ L.convertDateToTextFormat( date ) }</span>
             <span>{ name }</span>

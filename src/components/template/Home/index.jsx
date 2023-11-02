@@ -15,7 +15,11 @@ const HomeTemplate = () => {
     const [ options, setOptions ] = useState({ mode: ListContentMode.monthly });
     const [ mode, setMode ] = useState( options?.mode );
 
-    const [ is_list_ready, list_data ] = useListDataState( options );
+    useEffect(() => {
+        console.log( "mode", mode );
+    }, [ mode ]);
+
+    const [ is_list_ready, list_data, list_title ] = useListDataState( options );
     useEffect(() => {
         if ( is_list_ready ) setMode( options.mode );
     }, [ is_list_ready ]);
@@ -30,7 +34,12 @@ const HomeTemplate = () => {
         }</S.HomeTitleArea>
         <S.HomeContentArea>
             <ListCtrlArea onOptionChange={ onOptionChange }/>
-            <BlockList className="home-viewlist" mode={ mode }>{ list_data }</BlockList>
+            <BlockList 
+                className="home-viewlist" 
+                mode={ mode } 
+                is_ready={ is_list_ready }
+                title_data={ list_title }
+            >{ list_data }</BlockList>
         </S.HomeContentArea>
         <ServiceButton className="home-probbtn" icon={ <IconRotate/> }>기록이 이상한가요?</ServiceButton>
     </S.HomeTemplateWrap>

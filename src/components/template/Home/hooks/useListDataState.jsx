@@ -13,15 +13,27 @@ import * as L from "../logic";
 export const useListDataState = ( options ) => {
     const [ is_ready, setIsReady ] = useState( false );
     const [ data, setData ] = useState([]);
+    const [ title, setTitle ] = useState("");
 
-    const onDataReceived = ( e, v ) => {
-        setData( v );
+    const onReqSucceed = ( e, v ) => {
+        if ( e ) return onReqFailed( e );
+
+        const { data, title_data } = v;
+        setTitle( title_data )
+        setData( data );
         setIsReady( true );
     };
+    
+    const onReqFailed = ( e ) => {
+        // console.error( e.message );
+        setIsReady( true );
+    }
 
     useEffect(() => {
-        L.getListData( options, onDataReceived );
+        setIsReady( false );
+        setData( [] );
+        L.getListData( options, onReqSucceed, onReqFailed );
     }, [ options ]);
 
-    return [ is_ready, data ];
+    return [ is_ready, data, title ];
 }
