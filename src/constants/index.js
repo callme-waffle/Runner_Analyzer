@@ -1,4 +1,5 @@
 const API_URL = {
+    VERSION: "/run/version",
     MONTHS: "/run/months",
     STATISTIC: "/run/monthly",
     LOG: "/run",
@@ -14,6 +15,7 @@ const getParser = ( uri = "", option = {} ) => `${
 }`
 
 export const API_URL_PARSER = {
+    VERSION: ( opt ) => getParser( API_URL.VERSION, opt ),
     STATISTIC: ( opt ) => getParser( API_URL.STATISTIC, opt ),
     MONTHS: ( opt ) => getParser( API_URL.MONTHS, opt ),
     LOG: ( opt ) => getParser( API_URL.LOG, opt )
