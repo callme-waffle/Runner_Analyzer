@@ -17,12 +17,12 @@ import { SERVICE_BLOCK_TYPE } from "../../atom/ServiceBlock/constant";
  *  msg?: string,
  *  value?: any,
  *  onValueChange?: ( v: any ) => any
- * } & HTMLElement<HTMLDivElement> } param0 
+ * } & HTMLAttributes<HTMLDivElement> } param0 
  * @returns 
  */
 const InputBlock = ({ 
     icon,  
-    type, placeholder = "", value: init_value,
+    type = "text", placeholder = "", value: init_value,
     msg,
     onValueChange,
     ...props

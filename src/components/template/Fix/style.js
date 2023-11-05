@@ -23,13 +23,30 @@ export const FixTemplateWrap = styled.section`
     }
 `;
 
-export const FixTitleArea = styled.section`
+export const FixTextAreaWrap = styled.section`
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+
+    & > .title {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    & > .desc {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+`;
+
+export const FixTextArea = styled.section`
     width: 100%;
 
     & > p {
         color: #FFF;
-        font-size: 1.5rem;
-        font-weight: 700;
         word-break: keep-all;
 
         margin: 0;

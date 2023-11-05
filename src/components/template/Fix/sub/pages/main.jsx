@@ -1,8 +1,10 @@
 import styled from "styled-components";
+
 import { FIX_PROBLEM_LIST } from "../../constant";
-import ProblemArea from "../components/ProblemArea";
 import { useRunLogVersion } from "../../hooks/useFixableProbList";
-import { useEffect } from "react";
+
+import ProblemArea from "../components/ProblemArea";
+
 
 const S = {
     FixTemplateMain: styled.section`

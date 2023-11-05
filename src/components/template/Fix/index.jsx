@@ -1,18 +1,21 @@
 import * as S from "./style";
-
-import { useTitleState } from "./hooks/useTitleState";
-
-import FixTemplateMain from "./sub/pages/main";
-import ServiceButton from "../../atom/ServiceButton";
 import { IconArrowLeft, IconX } from "@tabler/icons-react";
-import { useFixStage } from "./hooks/useFixState";
-import { FIX_TEMPLATE_STAGES } from "./constant";
+
+import { useAnimTextState } from "./hooks/useAnimTextState";
+import { useStage } from "./hooks/useStage";
+
+import FixTemplateMain from "./sub/pages/Main";
+import ServiceButton from "../../atom/ServiceButton";
+
+import { FIX_TEMPLATE_DESCS, FIX_TEMPLATE_STAGES, FIX_TEMPLATE_TITLES } from "./constant";
 import { useCallback } from "react";
+import FixTemplateUpdateChat from "./sub/pages/UpdateChat";
 
 const FixTemplate = () => {
     
-    const [ viewmode, fix_stage, setFixStage ] = useFixStage();
-    const [ is_title_visible, title ] = useTitleState( fix_stage );
+    const [ viewmode, fix_stage, setFixStage ] = useStage( 300, FIX_TEMPLATE_STAGES.INIT );
+    const [ is_title_visible, title ] = useAnimTextState( fix_stage, FIX_TEMPLATE_TITLES );
+    const [ is_desc_visible, desc ] = useAnimTextState( fix_stage, FIX_TEMPLATE_DESCS );
 
     const onSolveBtnClick = ( new_stage ) => {
         setFixStage( new_stage );
@@ -29,18 +32,28 @@ const FixTemplate = () => {
     }, [ fix_stage ]);
 
     return <S.FixTemplateWrap>
-        <S.FixTitleArea>{ 
-            title.split("\n")
-            .map( ( t, i ) => 
-                <p className={ !is_title_visible ? "hidden" : "" }
-                    style={{ transitionDelay: `${ i * 0.01 }s` }}
-                >{ t }</p> 
-            )
-        }</S.FixTitleArea>
+        <S.FixTextAreaWrap>
+            <S.FixTextArea className="title">{ 
+                title.split("\n")
+                .map( ( t, i ) => 
+                    <p className={ !is_title_visible ? "hidden" : "" }
+                        style={{ transitionDelay: `${ i * 0.01 }s` }}
+                    >{ t }</p> 
+                )
+            }</S.FixTextArea>
+            <S.FixTextArea className="desc">{ 
+                desc.split("\n")
+                .map( ( t, i ) => 
+                    <p className={ !is_desc_visible ? "hidden" : "" }
+                        style={{ transitionDelay: `${ i * 0.01 }s` }}
+                    >{ t }</p> 
+                )
+            }</S.FixTextArea>
+        </S.FixTextAreaWrap>
         <S.FixUserArea viewmode={ viewmode }>
             {
                 ( fix_stage === FIX_TEMPLATE_STAGES.UPDATE_CHAT ) ? 
-                    <FixTemplateMain onBtnClick={ onSolveBtnClick }/> :
+                    <FixTemplateUpdateChat/> :
                 ( fix_stage === FIX_TEMPLATE_STAGES.ADD_LOG ) ? 
                     <FixTemplateMain onBtnClick={ onSolveBtnClick }/> :
                 <FixTemplateMain onBtnClick={ onSolveBtnClick }/>
