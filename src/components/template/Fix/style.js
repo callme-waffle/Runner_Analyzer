@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FIX_STAGE_VIEWMODES } from "./constant";
+import { fixTemplateClose, fixTemplateOpen } from "./keyframe";
 
 export const FixTemplateWrap = styled.section`
     width: 100vw;
@@ -18,8 +19,18 @@ export const FixTemplateWrap = styled.section`
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 100000;
 
+    
     & * {
         transition: all .2s cubic-bezier(0, 1, 1, 1);
+    }
+
+    animation-duration: .2s;
+    animation-fill-mode: both;
+    &.active {
+        animation-name: ${ fixTemplateOpen };
+    }
+    &.deactive {
+        animation-name: ${ fixTemplateClose };
     }
 `;
 

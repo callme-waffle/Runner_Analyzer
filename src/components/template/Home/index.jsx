@@ -1,15 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { IconRotate } from "@tabler/icons-react";
 
 import * as S from "./style";
 
-import { ListContentMode } from "../../molecule/BlockList/constant";
+import { useListDataState } from "./hooks/useListDataState";
 
 import ListCtrlArea from "../../organism/ListCtrlArea";
+import { ListContentMode } from "../../molecule/BlockList/constant";
 import BlockList from "../../molecule/BlockList";
 import ServiceButton from "../../atom/ServiceButton";
-import { IconRotate } from "@tabler/icons-react";
-import { useListDataState } from "./hooks/useListDataState";
-import FixTemplate from "../Fix";
+import { SetOpenFixContext } from "../../../pages/index";
+
+const bude_name = "103정보통신단 본부중대";
 
 const HomeTemplate = () => {
 
@@ -20,18 +22,15 @@ const HomeTemplate = () => {
     useEffect(() => {
         if ( is_list_ready ) setMode( options.mode );
     }, [ is_list_ready ]);
-
-    
-    const bude_name = "103정보통신단 본부중대";
     
     const onOptionChange = useCallback(( options ) => setOptions( options ), []);
 
+    const setOpenFix = useContext( SetOpenFixContext );
     const onFixBtnClick = () => {
-        
+        setOpenFix( true );
     }
 
     return <S.HomeTemplateWrap>
-        <FixTemplate/>
         <S.HomeTitleArea>{ 
             bude_name.split(" ").map( t => <p>{ t }</p> )
         }</S.HomeTitleArea>
