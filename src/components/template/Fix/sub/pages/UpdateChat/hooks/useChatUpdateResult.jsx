@@ -3,7 +3,18 @@ import { useState } from "react";
 import * as L from "../logic";
 
 /**
- * @returns { [ { requested: boolean }, () => boolean ] }
+ * @typedef {{
+ *  requested: true,
+ *  result: string,
+ *  requested: string,
+ *  version: string,
+ *  device: string
+ * } | {
+ *  requested: true,
+ *  result: false,
+ *  reason?: string
+ * } | { requested: false }} UpdateInfo
+ * @returns { [ UpdateInfo, () => boolean ] }
  */
 
 export const useChatUpdateResult = () => {

@@ -12,10 +12,7 @@ import UpdateChatDescription from "./sub/Description";
 import UpdateChatInput from "./sub/Input";
 import UpdateChatRequested from "./sub/Requested";
 import { FIX_TEMPLATE_CTRLBTN_STATES } from "../../../constant";
-
-
-
-
+import UpdateChatUpdated from "./sub/Updated";
 
 /**
  * 
@@ -64,7 +61,8 @@ const FixTemplateUpdateChat = ({ updateTemplateTexts, setTemplateBtnVisible }) =
             <UpdateChatInput onRequesterInput={ onRequesterInput } onStageFinish={ onInputStageFinish } />
         : ( stage === C.UPDATE_CHAT_STAGE.requested ) ? 
             <UpdateChatRequested onload={ () => setTemplateBtnVisible( FIX_TEMPLATE_CTRLBTN_STATES.INVISIBLE ) }/>
-        : ( stage === C.UPDATE_CHAT_STAGE.updated ) ? <></>
+        : ( stage === C.UPDATE_CHAT_STAGE.updated ) ? 
+            <UpdateChatUpdated info={ update_result }/>
         : <></>
     }</S.FixTemplateUpdateChat>
 }
