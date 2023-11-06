@@ -1,5 +1,5 @@
 import * as S from "./style";
-import { IconArrowLeft, IconX } from "@tabler/icons-react";
+import { IconArrowLeft, IconCheck, IconX } from "@tabler/icons-react";
 
 import { useAnimTextState } from "./hooks/useAnimTextState";
 import { useStage } from "./hooks/useStage";
@@ -7,15 +7,26 @@ import { useStage } from "./hooks/useStage";
 import FixTemplateMain from "./sub/pages/Main";
 import ServiceButton from "../../atom/ServiceButton";
 
-import { FIX_TEMPLATE_DESCS, FIX_TEMPLATE_STAGES, FIX_TEMPLATE_TITLES } from "./constant";
-import { useCallback } from "react";
+import { FIX_TEMPLATE_CTRLBTN_STATES, FIX_TEMPLATE_DESCS, FIX_TEMPLATE_STAGES, FIX_TEMPLATE_TITLES } from "./constant";
+import { useCallback, useState } from "react";
 import FixTemplateUpdateChat from "./sub/pages/UpdateChat";
 
 const FixTemplate = () => {
     
     const [ viewmode, fix_stage, setFixStage ] = useStage( 300, FIX_TEMPLATE_STAGES.INIT );
-    const [ is_title_visible, title ] = useAnimTextState( fix_stage, FIX_TEMPLATE_TITLES );
-    const [ is_desc_visible, desc ] = useAnimTextState( fix_stage, FIX_TEMPLATE_DESCS );
+    const [ tbtn_state, setTBtnState ] = useState( FIX_TEMPLATE_CTRLBTN_STATES.VISIBLE );
+
+    const [ is_title_visible, title, setCustomTitle ] = useAnimTextState( fix_stage, FIX_TEMPLATE_TITLES );
+    const [ is_desc_visible, desc, setCustomDesc ] = useAnimTextState( fix_stage, FIX_TEMPLATE_DESCS );
+
+    const updateTemplateTexts = ( new_title, new_desc ) => {
+        setCustomTitle( new_title );
+        setCustomDesc( new_desc );
+    }
+
+    const updateFixTemplateBtnState = ( btn_state ) => {
+        setTBtnState( btn_state );
+    }
 
     const onSolveBtnClick = ( new_stage ) => {
         setFixStage( new_stage );
@@ -30,6 +41,10 @@ const FixTemplate = () => {
                 return setFixStage( FIX_TEMPLATE_STAGES.INIT );
         }
     }, [ fix_stage ]);
+
+    const onFixFinished = () => {
+        window.location.reload();
+    }
 
     return <S.FixTemplateWrap>
         <S.FixTextAreaWrap>
@@ -53,19 +68,33 @@ const FixTemplate = () => {
         <S.FixUserArea viewmode={ viewmode }>
             {
                 ( fix_stage === FIX_TEMPLATE_STAGES.UPDATE_CHAT ) ? 
-                    <FixTemplateUpdateChat/> :
+                    <FixTemplateUpdateChat 
+                        updateTemplateTexts={ updateTemplateTexts }
+                        setTemplateBtnVisible={ updateFixTemplateBtnState }
+                    /> :
                 ( fix_stage === FIX_TEMPLATE_STAGES.ADD_LOG ) ? 
                     <FixTemplateMain onBtnClick={ onSolveBtnClick }/> :
                 <FixTemplateMain onBtnClick={ onSolveBtnClick }/>
             }
-            { 
-                ( fix_stage !== FIX_TEMPLATE_STAGES.INIT ) ? 
-                    <ServiceButton className="fix-template-ctrl-btn" icon={ <IconArrowLeft/> }
+            {
+                ( tbtn_state === FIX_TEMPLATE_CTRLBTN_STATES.VISIBLE ) ?
+                    <ServiceButton 
+                        className="fix-template-ctrl-btn btn-visible"
+                        icon={ ( fix_stage !== FIX_TEMPLATE_STAGES.INIT ) ? <IconArrowLeft/> : <IconX/> }
                         onClick={ onBottomBtnClick }
+                    >{ ( fix_stage !== FIX_TEMPLATE_STAGES.INIT ) ? "뒤로" : "닫기" }</ServiceButton> :
+                ( tbtn_state === FIX_TEMPLATE_CTRLBTN_STATES.INVISIBLE ) ?
+                    <ServiceButton 
+                        className="fix-template-ctrl-btn btn-invisible"
+                        icon={ <IconArrowLeft/> }
                     >뒤로</ServiceButton> :
-                    <ServiceButton className="fix-template-ctrl-btn" icon={ <IconX/> }
-                        onClick={ onBottomBtnClick }
-                    >닫기</ServiceButton>
+                ( tbtn_state === FIX_TEMPLATE_CTRLBTN_STATES.FINISHED ) ?
+                    <ServiceButton 
+                        className="fix-template-ctrl-btn btn-finish"
+                        icon={ <IconCheck/> }
+                        onClick={ onFixFinished }
+                    >완료</ServiceButton> :
+                <></>
             }
         </S.FixUserArea>
     </S.FixTemplateWrap>

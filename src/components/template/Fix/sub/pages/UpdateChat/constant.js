@@ -8,6 +8,19 @@ export const UPDATE_CHAT_HOWTO = [
 export const UPDATE_CHAT_STAGE = {
     desc: "UPDATE_CHAT_STAGE/DESCRIPTION",
     input: "UPDATE_CHAT_STAGE/INPUT_INFO",
-}
+    requested: "UPDATE_CHAT_STAGE/REQUESTED",
+    updated: "UPDATE_CHAT_STAGE/UPDATED"
+};
+
+export const UPDATE_CHAT_CUSTOM_TEMPLATE_TEXTS = {
+    [ UPDATE_CHAT_STAGE.requested ]: {
+        title: "최근기록으로\n업데이트를 요청했어요!",
+        desc: "서버에서 보내주신 카카오톡 채팅기록을 분석중이에요. 잠시만 기다려주세요.",
+    },
+    [ UPDATE_CHAT_STAGE.updated ]: {
+        title: "기록이 업데이트되었어요",
+        desc: "아래와 같이 업데이트 작업이 처리되었어요\n혹시나 정상적으로 업데이트되지 않았다면 잠시 후 다시 시도해주세요",
+    },
+};
 
 export const SUBMIT_EMAIL_ADDR = "submit.milide@gmail.com";

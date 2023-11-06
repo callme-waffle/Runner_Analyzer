@@ -73,8 +73,21 @@ export const FixUserArea = styled.section`
         width: 100%;
     }
 
-    & > .fix-template-ctrl-btn * {
-        color: #872424;
-        stroke: #872424;
+    & > .fix-template-ctrl-btn {
+
+        &:not( .btn-finish ) * {
+            color: #872424;
+            stroke: #872424;
+        }
+
+        overflow: hidden;
+        &.btn-invisible {
+            height: 0;
+            padding: 0;
+        }
+        &.btn-finish {
+            color: #248741;
+            stroke: #248741;
+        }
     }
 `;
