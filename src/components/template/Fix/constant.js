@@ -1,3 +1,5 @@
+import { IconPencil } from "@tabler/icons-react";
+
 export const FIX_STAGE_VIEWMODES = {
     VISIBLE: "FIX_SATGE_VIEWMODE/VISIBLE",
     INVISIBLE: "FIX_SATGE_VIEWMODE/INVISIBLE",
@@ -29,6 +31,7 @@ export const FIX_PROBLEM_LIST = [
     {
         text: "보고한 기록이 반영되지 않아요 / 잘못된 정보가 보고되었어요",
         btn_name: "뜀걸음 보고 정정요청",
+        btn_icon: <IconPencil/>,
         state: FIX_TEMPLATE_STAGES.ADD_LOG
     },
 ];

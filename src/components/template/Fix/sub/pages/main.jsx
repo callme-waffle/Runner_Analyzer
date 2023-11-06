@@ -30,14 +30,14 @@ const FixTemplateMain = ({ onBtnClick }) => {
     const [ is_ready, { version: latest_version, requested: updated_user } ] = useRunLogVersion();
 
     return <S.FixTemplateMain>{
-        FIX_PROBLEM_LIST.map( ({ createText, text, btn_name, state }) =>
+        FIX_PROBLEM_LIST.map( ({ createText, text, state, ...btn_options }) =>
             <ProblemArea 
                 problem={ createText ? 
                     !is_ready ? createText( "조회중", "조회중" ) :
                     createText( latest_version, updated_user ) : 
                     text 
                 }
-                solveBtn={{ btn_name, onClick: () => onBtnClick( state ) }}
+                solveBtn={{ ...btn_options, onClick: () => onBtnClick( state ) }}
             />
         )
     }</S.FixTemplateMain>

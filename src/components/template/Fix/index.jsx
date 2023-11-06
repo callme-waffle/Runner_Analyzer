@@ -29,6 +29,8 @@ const FixTemplate = () => {
     }
 
     const onSolveBtnClick = ( new_stage ) => {
+        if ( new_stage === FIX_TEMPLATE_STAGES.ADD_LOG ) 
+            return alert("아직 준비되지 않은 기능입니다. 행정병에게 문의해주세요");
         setFixStage( new_stage );
     }
 
@@ -49,16 +51,14 @@ const FixTemplate = () => {
     return <S.FixTemplateWrap>
         <S.FixTextAreaWrap>
             <S.FixTextArea className="title">{ 
-                title.split("\n")
-                .map( ( t, i ) => 
+                title.split("\n").map( ( t, i ) => 
                     <p className={ !is_title_visible ? "hidden" : "" }
                         style={{ transitionDelay: `${ i * 0.01 }s` }}
                     >{ t }</p> 
                 )
             }</S.FixTextArea>
             <S.FixTextArea className="desc">{ 
-                desc.split("\n")
-                .map( ( t, i ) => 
+                desc.split("\n").map( ( t, i ) => 
                     <p className={ !is_desc_visible ? "hidden" : "" }
                         style={{ transitionDelay: `${ i * 0.01 }s` }}
                     >{ t }</p> 

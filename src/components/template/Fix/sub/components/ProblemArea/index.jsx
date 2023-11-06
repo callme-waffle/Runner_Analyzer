@@ -12,7 +12,7 @@ import { IconRotate } from "@tabler/icons-react";
  * }} param0 
  * @returns 
  */
-const ProblemArea = ({ problem, solveBtn: { btn_name, onClick } }) => {
+const ProblemArea = ({ problem, solveBtn: { btn_name, btn_icon, onClick } }) => {
     return <S.ProblemAreaWrap>
         <S.ProblemTextArea>{
             problem.split("\n").map( ( t, i ) => 
@@ -21,7 +21,7 @@ const ProblemArea = ({ problem, solveBtn: { btn_name, onClick } }) => {
         <S.ProblemSolveBtnArea>
             <ServiceButton className="prob-solve-btn" 
                 onClick={ onClick }
-                icon={ <IconRotate/> }
+                icon={ btn_icon || <IconRotate/> }
             >{ btn_name }</ServiceButton>
         </S.ProblemSolveBtnArea>
     </S.ProblemAreaWrap>
