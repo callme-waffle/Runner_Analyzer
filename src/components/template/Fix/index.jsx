@@ -7,7 +7,7 @@ import * as C from "./constant";
 import { useAnimTextState } from "./hooks/useAnimTextState";
 import { useStage } from "./hooks/useStage";
 
-import FixTemplateMain from "./sub/pages/Main";
+import FixTemplateMain from "./sub/pages/main";
 import FixTemplateUpdateChat from "./sub/pages/UpdateChat";
 
 import ServiceButton from "../../atom/ServiceButton";
