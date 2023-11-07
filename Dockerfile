@@ -14,7 +14,7 @@ RUN yarn
 RUN yarn global add serve
 
 # copy build dir files to working dir
-COPY ./build/* .
+COPY build/. .
 
 # open port
 EXPOSE 5000
