@@ -7,7 +7,7 @@ FROM nginx
 EXPOSE 3000
 
 # copy nginx config file
-COPY /publish/volumes/fe/fe.nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./fe.nginx.conf /etc/nginx/conf.d/default.conf
 
 # copy deploy dir
 COPY ./build /usr/share/nginx/html
