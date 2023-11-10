@@ -19,6 +19,7 @@ export const FixTemplateWrap = styled.section`
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 100000;
 
+    overflow: hidden;
     
     & * {
         transition: all .2s cubic-bezier(0, 1, 1, 1);
