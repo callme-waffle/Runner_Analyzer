@@ -8,6 +8,7 @@ import { useMonthOptionState } from "./hooks/useMonthOptionState";
 import { useSelectionOpenState } from "./hooks/useSelectionOpenState";
 import { SELECTOR_UNIQUE_KEYS } from "./constant";
 import { useSelectedState } from "./hooks/useSelectedState";
+import SelectionListArea from "../../../../molecule/SelectionListArea";
 
 
 const SearchDateSelector = ({ isChlidSelectionDisabled = true }) => {
@@ -30,10 +31,6 @@ const SearchDateSelector = ({ isChlidSelectionDisabled = true }) => {
         onOpen( o.key );
     }
 
-    const onSelectionListBoxScroll = ( e ) => {
-        e.currentTarget.scrollBy( e.deltaY, 0 );
-    }
-
     return <S.SelectorWrap>
         <S.SelectorBlocksWrap>
             <SelectorBlock
@@ -54,15 +51,11 @@ const SearchDateSelector = ({ isChlidSelectionDisabled = true }) => {
             >{ selected[ SELECTOR_UNIQUE_KEYS.month ].text }</SelectorBlock>
         </S.SelectorBlocksWrap>
         {
-            ( isChlidSelectionDisabled && isSelectionOpen ) && <S.SelectionListBox className="selection-list" onWheel={ onSelectionListBoxScroll }>
-                <section className="selection-wrap">{
-                    selections.map( ( sel, i ) => 
-                        <div className="selection-block" onClick={ ( e ) => onSelectionClick( e, sel ) } key={ i }>
-                            { sel.text }
-                        </div> 
-                    )
-                }</section>
-            </S.SelectionListBox>
+            ( isChlidSelectionDisabled ) && 
+                <SelectionListArea 
+                    className={ `${ ( isSelectionOpen ) ? "selection-open" : "selection-close" }` }
+                    selections={ selections } onSelectionClick={ onSelectionClick }
+                />
         }
     </S.SelectorWrap>
 }

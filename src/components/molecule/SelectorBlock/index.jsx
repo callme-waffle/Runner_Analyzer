@@ -1,9 +1,9 @@
 import { useMemo, useState, MouseEvent, useEffect, HTMLAttributes, HTMLTableSectionElement } from "react";
 
 import * as S from "./style";
-import * as ParentS from "../../organism/ListCtrlArea/sub/SearchDateSelector/style";
 
 import { SERVICE_BLOCK_TYPE } from "../../atom/ServiceBlock/constant";
+import SelectionListArea from "../SelectionListArea";
 
 /**
  * 
@@ -46,10 +46,6 @@ const SelectorBlock = ({
         setIsSelectionOpen( false );
     }
 
-    const onSelectionListBoxScroll = ( e ) => {
-        e.currentTarget.scrollBy( e.deltaY, 0 );
-    }
-
     return <S.SelectorBlockArea onClick={ (e) => ( onClick && onClick( e, selector_key ) ) } { ...props }>
         <S.SelectorBlockBox
             type={ SERVICE_BLOCK_TYPE.INPUT }
@@ -61,16 +57,11 @@ const SelectorBlock = ({
                 <span>{ selected.text }</span>
             </section>
         </S.SelectorBlockBox>
-        {
-            ( !useParentSelection && isSelectionOpen ) && <ParentS.SelectionListBox className="selection-list" onWheel={ onSelectionListBoxScroll }>
-                <section className="selection-wrap">{
-                    selections.map( sel => 
-                        <div className="selection-block" onClick={ ( e ) => onSelectionClick( e, sel ) }>
-                            { sel.text }
-                        </div> 
-                    )
-                }</section>
-            </ParentS.SelectionListBox>
+        { ( !useParentSelection ) && 
+            <SelectionListArea 
+                className={ `${ ( isSelectionOpen ) ? "selection-open" : "selection-close" }` }
+                selections={ selections } onSelectionClick={ onSelectionClick }
+            />
         }
     </S.SelectorBlockArea>
 }
