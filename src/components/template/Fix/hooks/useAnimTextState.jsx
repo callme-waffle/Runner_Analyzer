@@ -1,10 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-
-const sleep = ( tmout ) => 
-    new Promise( resolve => 
-        setTimeout( () => resolve( true ), tmout ) 
-    );
+import util from "../../../../util";
 
 /**
  * 
@@ -19,7 +15,7 @@ export const useAnimTextState = ( stage, template, tmout = 300 ) => {
 
     const updateText = async ( v ) => {
         setVisible( false );
-        await sleep( tmout );
+        await util.sleep( tmout );
         setText( v || "" );
         setVisible( true );
     }

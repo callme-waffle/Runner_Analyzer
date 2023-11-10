@@ -1,13 +1,12 @@
 import * as S from "./style";
 import * as ParentC from "../../constant";
 
+import util from "../../../../../../../../util";
+
 import ServiceButton from "../../../../../../../atom/ServiceButton";
 import { IconArrowRight } from "@tabler/icons-react";
 
-const sleep = ( tmout ) => 
-    new Promise( resolve => 
-        setTimeout( () => resolve( true ), tmout ) 
-    );
+
 
 const UpdateChatDescription = ({ onStageFinish }) => {
 
@@ -15,7 +14,7 @@ const UpdateChatDescription = ({ onStageFinish }) => {
         window.navigator.clipboard.writeText( ParentC.SUBMIT_EMAIL_ADDR );
         e.currentTarget.innerText = "복사완료!";
         
-        await sleep( 300 );
+        await util.sleep( 300 );
         onStageFinish();
     }
 

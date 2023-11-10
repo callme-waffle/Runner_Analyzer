@@ -1,15 +1,13 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import * as S from "./style";
 
 import { IconRotate, IconUser } from "@tabler/icons-react";
 
 import ServiceButton from "../../../../../../../atom/ServiceButton";
 import InputBlock from "../../../../../../../molecule/InputBlock";
-import { useCallback, useEffect, useRef, useState } from "react";
 
-const sleep = ( tmout ) => 
-    new Promise( resolve => 
-        setTimeout( () => resolve( true ), tmout ) 
-    );
+import util from "../../../../../../../../util";
 
 const UpdateChatInput = ({ onRequesterInput, onStageFinish }) => {
 
@@ -19,7 +17,7 @@ const UpdateChatInput = ({ onRequesterInput, onStageFinish }) => {
 
     useEffect(() => { (async () => {
         name_prev.current = name;
-        await sleep( 300 );
+        await util.sleep( 300 );
         if ( name_prev.current === name ) onRequesterInput( name );
     })() }, [ name ]);
 
@@ -27,7 +25,7 @@ const UpdateChatInput = ({ onRequesterInput, onStageFinish }) => {
         if ( is_clicked ) return;
         setIsClicked( true );
         
-        await sleep( 300 );
+        await util.sleep( 300 );
         return onStageFinish();
     }, [ is_clicked, onStageFinish ] );
 
