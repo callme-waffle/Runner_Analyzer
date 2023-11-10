@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const HomeTemplateWrap = styled.section`
     width: 100vw;
     height: 100vh;
-    padding: 80px 20px 20px 20px;
+    padding: 40px 20px 20px 20px;
     box-sizing: border-box;
 
     display: flex;
