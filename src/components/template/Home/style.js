@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import { ListContentMode } from "../../molecule/BlockList/constant";
 
 
 export const HomeTemplateWrap = styled.section`
     width: 100vw;
     height: 100vh;
-    padding: 40px 20px 20px 20px;
+    padding: 40px 20px;
     box-sizing: border-box;
 
     display: flex;
@@ -50,7 +51,11 @@ export const HomeContentArea = styled.section`
 
     
     & > .home-viewlist {
-        height: calc( 100% - 7rem );
+        height: ${ ({ viewmode }) => 
+            ( viewmode === ListContentMode.individual ) ?
+                "calc( 100% - 12rem )" :
+                "calc( 100% - 7rem )"
+        };
     }
 
     & > * {

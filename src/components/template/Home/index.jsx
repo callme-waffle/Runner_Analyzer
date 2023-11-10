@@ -34,7 +34,7 @@ const HomeTemplate = () => {
         <S.HomeTitleArea>{ 
             bude_name.split(" ").map( t => <p>{ t }</p> )
         }</S.HomeTitleArea>
-        <S.HomeContentArea>
+        <S.HomeContentArea viewmode={ options?.mode }>
             <ListCtrlArea onOptionChange={ onOptionChange }/>
             <BlockList 
                 className="home-viewlist" 
