@@ -12,6 +12,6 @@ import { API_URL_PARSER } from "../../../../../../constants";
  * @return { UpdateInfo }
  */
 export const requestChatUpdate = async ( requester ) => {
-    const { data: api_result } = await API.post( API_URL_PARSER.LOG(), { requester } );
+    const { data: api_result } = await API.post( API_URL_PARSER.SERVICE.LOG(), { requester } );
     return api_result.response;
 }

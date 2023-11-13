@@ -1,8 +1,13 @@
 const API_URL = {
-    VERSION: "/run/version",
-    MONTHS: "/run/months",
-    STATISTIC: "/run/monthly",
-    LOG: "/run",
+    SERVICE: {
+        VERSION: "/service/run/version",
+        MONTHS: "/service/run/months",
+        STATISTIC: "/service/run/monthly",
+        LOG: "/service/run",
+    },
+    AUTH: {
+        LOGIN: "/auth/login"
+    }
 }
 
 const getParser = ( uri = "", option = {} ) => `${ 
@@ -15,8 +20,13 @@ const getParser = ( uri = "", option = {} ) => `${
 }`
 
 export const API_URL_PARSER = {
-    VERSION: ( opt ) => getParser( API_URL.VERSION, opt ),
-    STATISTIC: ( opt ) => getParser( API_URL.STATISTIC, opt ),
-    MONTHS: ( opt ) => getParser( API_URL.MONTHS, opt ),
-    LOG: ( opt ) => getParser( API_URL.LOG, opt )
+    SERVICE: {
+        VERSION: ( opt ) => getParser( API_URL.SERVICE.VERSION, opt ),
+        STATISTIC: ( opt ) => getParser( API_URL.SERVICE.STATISTIC, opt ),
+        MONTHS: ( opt ) => getParser( API_URL.SERVICE.MONTHS, opt ),
+        LOG: ( opt ) => getParser( API_URL.SERVICE.LOG, opt ),
+    },
+    AUTH: {
+        LOGIN: () => API_URL.AUTH.LOGIN
+    }
 }

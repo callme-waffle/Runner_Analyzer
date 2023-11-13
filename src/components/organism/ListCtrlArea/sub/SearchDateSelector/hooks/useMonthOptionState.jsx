@@ -7,7 +7,7 @@ import { SELECTOR_UNIQUE_KEYS } from "../constant";
 
 
 const getMonthSelections = async ( cb ) => {
-    const { data: api_res } = await API.get( API_URL_PARSER.MONTHS() );
+    const { data: api_res } = await API.get( API_URL_PARSER.SERVICE.MONTHS() );
     cb( null, api_res?.response?.selections );
 }
 
