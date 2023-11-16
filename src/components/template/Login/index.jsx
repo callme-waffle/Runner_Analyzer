@@ -4,12 +4,24 @@ import * as S from "./style";
 import backgroundImage from "../../../assets/images/undraw_fitness_stats_sht6.svg";
 
 import ServiceLogo from "../../atom/ServiceLogo";
-import LoginInputArea from "../../organism/LoginInputArea";
-import { useLoginRequest } from "./hooks/useLoginRequest";
+
+import LoginInputArea from "./sub/LoginInputArea";
+import LoginedFncArea from "./sub/LoginedFncArea";
+
+import { useLoginState } from "./hooks/useLoginState";
+import { useLoginTitleState } from "./hooks/useLoginTitleState";
 
 const LoginTemplate = () => {
 
-    const [ is_logined, is_login_requested, logined_info, login ] = useLoginRequest();
+    const {
+        status: { is_logined, active_input },
+        data,
+        fnc: { login, logout }
+    } = useLoginState();
+    const {
+        title: { text: title, color: title_color, display: title_display },
+        desc: { text: desc, color: desc_color, display: desc_display }
+    } = useLoginTitleState( is_logined, data );
 
     return <S.LoginTemplateWrap>
         <S.BackgroundArea src={ backgroundImage }></S.BackgroundArea>
@@ -17,17 +29,19 @@ const LoginTemplate = () => {
             <ServiceLogo/>
         </S.TitleArea>
         <S.LoginArea>
-            <S.LoginTextArea>
-                <h3>환영합니다!</h3>
-                <S.LoginDescArea>
-                    <span>부대 식별코드와 사용자 이름을</span>
-                    <span>입력해주세요 =)</span>
-                </S.LoginDescArea>
+            <S.LoginTextArea color={ title_color } opacity={ title_display }>
+                <h3>{ title }</h3>
+                <S.LoginDescArea color={ desc_color } opacity={ desc_display }>{
+                    desc.split("\n").map( v => <span>{ v }</span> )
+                }</S.LoginDescArea>
             </S.LoginTextArea>
-            <LoginInputArea 
-                isInputActive={ is_login_requested }
-                onLoginButtonClick={ login }
-            />
+            {
+                ( is_logined ) ? <LoginedFncArea onLogoutBtnClick={ logout }/>
+                : <LoginInputArea 
+                    isInputActive={ active_input }
+                    onLoginButtonClick={ login }
+                />
+            }
         </S.LoginArea>
     </S.LoginTemplateWrap>
 }

@@ -5,6 +5,8 @@
   --service-color-B: #0169A4;
   --service-color-B-half: #0069A482;
   --service-color-C: #549AC2;
+
+  --service-color-alert: #872424;
 }
 
 html {

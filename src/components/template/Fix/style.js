@@ -88,8 +88,8 @@ export const FixUserArea = styled.section`
     & > .fix-template-ctrl-btn {
 
         &:not( .btn-finish ) * {
-            color: #872424;
-            stroke: #872424;
+            color: var( --service-color-alert );
+            stroke: var( --service-color-alert );
         }
 
         overflow: hidden;

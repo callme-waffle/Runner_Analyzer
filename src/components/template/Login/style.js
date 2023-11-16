@@ -63,8 +63,10 @@ export const LoginTextArea = styled.section`
     gap: 0.5em;
 
     & * {
-        color: var( --service-color-B );
+        color: ${ ({ color }) => color };
+        opacity: ${ ({ opacity }) => opacity ? "1" : "0" };
         text-align: center;
+        transition: all .2s ease;
     }
 
     & > h3 {
@@ -83,4 +85,10 @@ export const LoginDescArea = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    & * {
+        color: ${ ({ color }) => color };
+        opacity: ${ ({ opacity }) => opacity ? "1" : "0" };
+        text-align: center;
+    }
 `;

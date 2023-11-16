@@ -6,7 +6,9 @@ const API_URL = {
         LOG: "/service/run",
     },
     AUTH: {
-        LOGIN: "/auth/login"
+        LOGIN: "/auth/login",
+        LOGOUT: "/auth/logout",
+        INFO: "/auth/info"
     }
 }
 
@@ -27,6 +29,8 @@ export const API_URL_PARSER = {
         LOG: ( opt ) => getParser( API_URL.SERVICE.LOG, opt ),
     },
     AUTH: {
-        LOGIN: () => API_URL.AUTH.LOGIN
+        LOGIN: () => API_URL.AUTH.LOGIN,
+        LOGOUT: () => API_URL.AUTH.LOGOUT,
+        INFO: () => API_URL.AUTH.INFO
     }
 }
