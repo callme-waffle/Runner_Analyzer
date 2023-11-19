@@ -5,7 +5,7 @@ import * as S from "./style";
 import { ListContentMode } from "../BlockList/constant";
 import { ListContentName } from "./constant";
 
-import { IsMobileContext } from "../../../pages/index";
+import { IsMobileContext } from "../../../pages/Index/index";
 
 
 

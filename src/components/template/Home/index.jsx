@@ -9,7 +9,7 @@ import ListCtrlArea from "../../organism/ListCtrlArea";
 import { ListContentMode } from "../../molecule/BlockList/constant";
 import BlockList from "../../molecule/BlockList";
 import ServiceButton from "../../atom/ServiceButton";
-import { SetOpenFixContext } from "../../../pages/index";
+import { SetOpenFixContext } from "../../../pages/Index/index";
 
 const bude_name = "103정보통신단 본부중대";
 

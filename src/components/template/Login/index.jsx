@@ -10,14 +10,13 @@ import LoginedFncArea from "./sub/LoginedFncArea";
 
 import { useLoginState } from "./hooks/useLoginState";
 import { useLoginTitleState } from "./hooks/useLoginTitleState";
+import { useDelayState } from "../../../hooks/useDelayState";
 
 const LoginTemplate = () => {
 
-    const {
-        status: { is_logined, active_input },
-        data,
-        fnc: { login, logout }
-    } = useLoginState();
+    const { status: { is_logined, active_input }, data, fnc: { login, logout } } = useLoginState();
+    const [ is_logined_delay, is_applied ] = useDelayState( is_logined, 300 );
+
     const {
         title: { text: title, color: title_color, display: title_display },
         desc: { text: desc, color: desc_color, display: desc_display }
@@ -35,13 +34,11 @@ const LoginTemplate = () => {
                     desc.split("\n").map( v => <span>{ v }</span> )
                 }</S.LoginDescArea>
             </S.LoginTextArea>
-            {
-                ( is_logined ) ? <LoginedFncArea onLogoutBtnClick={ logout }/>
-                : <LoginInputArea 
-                    isInputActive={ active_input }
-                    onLoginButtonClick={ login }
-                />
-            }
+            <S.LoginControlArea display={ is_applied }>{
+                ( is_logined_delay ) ? 
+                    <LoginedFncArea user={ data?.user } onLogoutBtnClick={ logout }/> :
+                    <LoginInputArea isInputActive={ active_input } onLoginButtonClick={ login } />
+            }</S.LoginControlArea>
         </S.LoginArea>
     </S.LoginTemplateWrap>
 }

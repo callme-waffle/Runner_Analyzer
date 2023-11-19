@@ -31,10 +31,8 @@ export const useLoginTitleState = ( is_logined, data ) => {
 
         return true;
     }
-    
 
     useEffect(() => {
-        console.log( is_logined, data );
         if ( is_logined && data.user ) {
             updateTitle( `${ data.user.name }님, 안녕하세요!`, "var( --service-color-B )" );
             updateDesc( "오늘도 힘내세요 :)", "var( --service-color-B )" );

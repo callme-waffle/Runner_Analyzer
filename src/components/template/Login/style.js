@@ -92,3 +92,12 @@ export const LoginDescArea = styled.section`
         text-align: center;
     }
 `;
+
+export const LoginControlArea = styled.section`
+    width: 100%;
+    height: 100%;
+
+    opacity: ${ ({ display }) => ( display ) ? "1" : "0" };
+    
+    transition: all .2s ease;
+`;

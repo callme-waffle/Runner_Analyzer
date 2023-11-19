@@ -11,7 +11,7 @@ import FixTemplateMain from "./sub/pages/main";
 import FixTemplateUpdateChat from "./sub/pages/UpdateChat";
 
 import ServiceButton from "../../atom/ServiceButton";
-import { SetOpenFixContext } from "../../../pages/index";
+import { SetOpenFixContext } from "../../../pages/Index/index";
 
 /**
  * 
