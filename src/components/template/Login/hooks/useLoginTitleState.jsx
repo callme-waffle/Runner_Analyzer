@@ -1,33 +1,29 @@
 import { useEffect, useState } from "react";
 import util from "../../../../util";
 
+import { useDelayState } from "../../../../hooks/useDelayState";
+
 
 export const useLoginTitleState = ( is_logined, data ) => {
 
-    const [ title, setTitle ] = useState( "" );
-    const [ is_title_display, setTitleDisplay ] = useState( true );
+    const [ is_title_display, title, setTitle ] = useDelayState( "" );
     const [ title_color, setTitleColor ] = useState( "#000" );
 
     const updateTitle = async ( text, color ) => {
-        setTitleDisplay( false );
-        await util.sleep( 300 );
         setTitle( text );
+        await util.sleep( 300 );
         setTitleColor( color );
-        setTitleDisplay( true );
-
+        
         return true;
     }
     
-    const [ desc, setDesc ] = useState( "" );
-    const [ is_desc_display, setDescDisplay ] = useState( true );
+    const [ is_desc_display, desc, setDesc ] = useDelayState( "" );
     const [ desc_color, setDescColor ] = useState( "#000" );
 
     const updateDesc = async ( text, color ) => {
-        setDescDisplay( false );
-        await util.sleep( 300 );
         setDesc( text );
+        await util.sleep( 300 );
         setDescColor( color );
-        setDescDisplay( true );
 
         return true;
     }

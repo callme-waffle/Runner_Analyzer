@@ -10,12 +10,12 @@ import LoginedFncArea from "./sub/LoginedFncArea";
 
 import { useLoginState } from "./hooks/useLoginState";
 import { useLoginTitleState } from "./hooks/useLoginTitleState";
-import { useDelayState } from "../../../hooks/useDelayState";
+import { useDelay } from "../../../hooks/useDelay";
 
 const LoginTemplate = () => {
 
     const { status: { is_logined, active_input }, data, fnc: { login, logout } } = useLoginState();
-    const [ is_logined_delay, is_applied ] = useDelayState( is_logined, 300 );
+    const [ is_logined_delay, is_applied ] = useDelay( is_logined, 300 );
 
     const {
         title: { text: title, color: title_color, display: title_display },

@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react"
+import { useState, } from "react";
 import util from "../util";
 
 /**
- * state가 지정시간 뒤 지연되어 변경되도록 합니다
- * @param { T } curr_state 기존시점대로 변경되는 state값
- * @param { number } tmout 지연시키는 ms값 (default: 300)
- * @returns { [ T, boolean ] } 지연적용되는 state값; [ 지연적용 state, 지연적용여부 ]
+ * 특정시간 이후 변경되는 상태를 제공합니다
+ * @param { T } init 초기에 설정할 상태값을 지정합니다
+ * @param { number } tmout 몇초 이후 변경될지 설정합니다 (default: 300)
+ * @returns { [ boolean, T, ( value: T ) => any ] } [ 표시가능여부, value, value dispatcher ]
  */
-export const useDelayState = ( curr_state, tmout = 300 ) => {
-    const [ state, setState ] = useState( curr_state );
-    const [ is_applied, setIsApplied ] = useState( true );
+export const useDelayState = ( init, tmout = 300 ) => {
+
+    const [ value, setValue ] = useState( init || undefined );
+    const [ is_value_available, setValueAvailable ] = useState( true );
+
+    const updateValue = async ( v ) => {
+        setValueAvailable( false );
+        await util.sleep( tmout );
+        setValue( v );
+        setValueAvailable( true );
+
+        return true;
+    }
     
-    useEffect( () => {
-        ( async () => {
-            setIsApplied( false );
-            await util.sleep( tmout );
-            setState( curr_state );
-            setIsApplied( true );
-        } )()
-    }, [ curr_state ] );
-    
-    return [ state, is_applied ];
+    return [ is_value_available, value, updateValue ];
 }
