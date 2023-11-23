@@ -10,7 +10,7 @@ import util from "../util";
 export const useDelayState = ( init, tmout = 300 ) => {
 
     const [ value, setValue ] = useState( init || undefined );
-    const [ is_value_available, setValueAvailable ] = useState( true );
+    const [ is_value_available, setValueAvailable ] = useState( false );
 
     const updateValue = async ( v ) => {
         setValueAvailable( false );

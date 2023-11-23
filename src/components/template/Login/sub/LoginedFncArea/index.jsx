@@ -8,6 +8,10 @@ const LoginedFncArea = ({ user, onLogoutBtnClick }) => {
         window.location.href = "/";
     }
 
+    const onSettingBtnClick = () => {
+        window.location.href = "/settings";
+    }
+
     return <S.LoginedFncArea>
         <ServiceButton 
             className={ `logined-fnc-button home-button` } 
@@ -18,7 +22,7 @@ const LoginedFncArea = ({ user, onLogoutBtnClick }) => {
             ( user.privilege > 0 ) && <ServiceButton 
                 className={ `logined-fnc-button home-button` } 
                 icon={ <IconSettings/> }
-                onClick={ onHomeBtnClick }
+                onClick={ onSettingBtnClick }
             >시스템 설정</ServiceButton>
         }
         <ServiceButton 
