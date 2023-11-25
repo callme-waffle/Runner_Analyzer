@@ -36,8 +36,8 @@ const BlockList = ({ mode, children = [], is_ready = true, title_data, ...props 
         <S.BlockList>{
             is_ready && list.map( ( v, i ) => 
                 ( mode === ListContentMode.monthly ) ?
-                    <UserBlock className="list-block" index={ i+1 } value={ v } key={ i }/>
-                    : <LogBlock className="list-block" index={ i+1 } value={ v } key={ i }/>
+                    <UserBlock className="list-block" index={ i+1 } values={{ title: v.name, contents: [ v.dist, "km" ] }} key={ i }/>
+                    : <LogBlock className="list-block" index={ v.date } values={{ title: v.name, contents: [ v.dist, "km" ] }} key={ i }/>
             )
         }</S.BlockList>
     </S.BlockListWrap>
