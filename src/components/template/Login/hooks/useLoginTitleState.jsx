@@ -37,7 +37,7 @@ export const useLoginTitleState = ( is_logined, data ) => {
 
         if ( data.reason ) {
             updateTitle( "오류가 발생했어요", "var( --service-color-alert )" );
-            updateDesc( data.reason, "var( --service-color-alert )" );
+            updateDesc( data?.reason || "", "var( --service-color-alert )" );
             return;
         }
 

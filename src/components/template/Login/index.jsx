@@ -19,7 +19,7 @@ const LoginTemplate = () => {
 
     const {
         title: { text: title, color: title_color, display: title_display },
-        desc: { text: desc, color: desc_color, display: desc_display }
+        desc: { text: desc = "", color: desc_color, display: desc_display }
     } = useLoginTitleState( is_logined, data );
 
     return <S.LoginTemplateWrap>
