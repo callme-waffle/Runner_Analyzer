@@ -9,6 +9,11 @@ const API_URL = {
         LOGIN: "/auth/login",
         LOGOUT: "/auth/logout",
         INFO: "/auth/info"
+    },
+    USER: {
+        LIST: "/user/list",
+        INFO: "/user/info",
+        JOIN: "/user/join",
     }
 }
 
@@ -32,5 +37,10 @@ export const API_URL_PARSER = {
         LOGIN: () => API_URL.AUTH.LOGIN,
         LOGOUT: () => API_URL.AUTH.LOGOUT,
         INFO: () => API_URL.AUTH.INFO
+    },
+    USER: {
+        LIST: () => API_URL.USER.LIST,
+        INFO: ( opt ) => getParser( API_URL.USER.INFO, opt ),
+        JOIN: () => API_URL.USER.JOIN
     }
 }

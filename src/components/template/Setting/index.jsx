@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
 import * as S from "./style";
-import { SETTING_MENUS, SETTING_MENU_IDS } from "./constant";
-import { useDelayState } from "../../../hooks/useDelayState";
-import { IconChevronLeft } from "@tabler/icons-react";
+
+import { SETTING_MENU_IDS } from "./constant";
 import { useSettingPageState } from "./hooks/useSettingPageState";
+
 import SettingTitleArea from "./sub/components/SettingTitleArea";
-import SettingMenuBlock from "./sub/components/SettingMenuBlock";
+import SettingPageHome from "./sub/page/Home";
+import SettingPageAccocuntCtrl from "./sub/page/AccountCtrl";
+
 
 
 const SettingTemplate = () => {
@@ -22,11 +26,11 @@ const SettingTemplate = () => {
             prev={ prev_page }
             onGoPrevClick={ goPrev }
         />
-        <S.SettingMenusArea>{
-            Object.values( SETTING_MENUS ).filter( v => !v.is_default ).map( ({ title, desc, mid }) => <>
-                <SettingMenuBlock desc={ desc } onClick={ ( e ) => onMenuBlockClick( e, mid ) }>{ title }</SettingMenuBlock>
-            </> )
-        }</S.SettingMenusArea>
+        <Routes>
+            <Route path="/" element={ <SettingPageHome onMenuClick={ onMenuBlockClick }/> }/>
+            <Route path="/accounts" element={ <SettingPageAccocuntCtrl/> }/>
+            <Route path="/runlogs/add" element={ <></> }/>
+        </Routes>
         <S.SettingTemplateBackground/>
     </S.SettingTemplateWrap>
 }

@@ -29,12 +29,3 @@ export const SettingTemplateBackground = styled.div`
 
     z-index: -1;
 `;
-
-export const SettingMenusArea = styled.section`
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3rem;
-
-    position: relative;
-`;

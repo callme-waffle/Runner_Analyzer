@@ -1,4 +1,6 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
+import { SETTING_MENUS } from "../constant";
 
 
 /**
@@ -7,6 +9,8 @@ import { useCallback, useState } from "react"
  * @returns { [ string, string, ( new_page: string ) => void, () => boolean ] }
  */
 export const useSettingPageState = ( init ) => {
+    const navigate = useNavigate();
+
     const [ page, setPage ] = useState( init );
     const [ prev_page, setPrevPage ] = useState( null );
 
@@ -19,6 +23,10 @@ export const useSettingPageState = ( init ) => {
         setPage( prev_page );
         setPrevPage( null );
     }, [ prev_page ] );
+
+    useEffect(() => {
+        navigate( SETTING_MENUS[ page ].url );
+    }, [ page ]);
 
     return [ page, prev_page, updatePage, goPrev ];
 }
