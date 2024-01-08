@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 import * as S from "./style";
 import * as L from "./logic";
+import * as R from "./request";
 import * as C from "./constant";
 
 import SettingFncBtns from "../../components/SettingFncBtns";
@@ -34,14 +35,19 @@ const SettingPageAccocuntCtrl = () => {
     const requestAPIAction = async ( msg, apiAction, attrs ) => {
         try {
             const user_confirm = await window.confirm( msg );
-            if ( !user_confirm || user_select.length === 0 )
+            if ( !user_confirm )
                 return;
-
-            const { action_result, action_error_reason } = await apiAction( ...attrs );
+            
+            if ( user_select.length === 0 && !tmp_user_info?.name )
+                return;
+        
+            const { result: action_result, reason: action_error_reason } = await apiAction( ...attrs );
             if ( !action_result ) throw new Error( action_error_reason );
 
-            const { list_result, list_error_reason } = accListHooks.search();
+            const { result: list_result, reason: list_error_reason } = await accListHooks.search();
             if ( !list_result ) throw new Error( list_error_reason );
+
+            console.log( list_result );
         } catch(e) {
             setMsg( e.message );
         } finally {
@@ -50,8 +56,6 @@ const SettingPageAccocuntCtrl = () => {
     }
 
     const onCtrlBtnClick = async ( e, bid ) => {
-        console.log( bid, C.CTRL_BUTTON_IDS.ADD );
-
         switch( bid ) {
             case C.CTRL_BUTTON_IDS.SELECT: 
                 return updateMode( "toggle", [ C.ACC_CTRL_MODES.SELECT, C.ACC_CTRL_MODES.VIEW ] );
@@ -62,15 +66,15 @@ const SettingPageAccocuntCtrl = () => {
             case C.CTRL_BUTTON_IDS.REMOVE: 
                 return onREMOVEBtnClick();
             case C.CTRL_BUTTON_IDS.ASSIGN_ADMIN_PRIV: 
-                return // await requestAPIAction( `선택한 ${ user_select.length }개의 계정권한을 1계급 승급시킬까요? 승급된 권한은 내릴 수 없습니다.`, L.updateUserPriv, [ user_select ] );
+                return await requestAPIAction( `선택한 ${ user_select.length }개의 계정권한을 1계급 승급시킬까요? 승급된 권한은 내릴 수 없습니다.`, R.updateUserPriv, [ user_select ] );
             case C.CTRL_BUTTON_IDS.BLOCK_LOGIN: 
-                return // await requestAPIAction( `선택한 ${ user_select.length }개 계정의 로그인을 차단할까요?`, L.blockUser, [ user_select ] );
+                return await requestAPIAction( `선택한 ${ user_select.length }개 계정의 로그인을 차단할까요?`, R.blockUser, [ user_select ] );
         }
     };
 
     const onADDBtnClick = async () => {
         if ( mode === C.ACC_CTRL_MODES.CREATE ) {
-            // await requestAPIAction( `${ tmp_user_expired_at }에 전역하는 ${ tmp_user_info.name } 계정을 생성할까요?`, L.addUser, [ tmp_user_info ] );
+            await requestAPIAction( `${ tmp_user_info.dc_date }에 전역하는 ${ tmp_user_info.name } 계정을 생성할까요?`, R.addUser, [ tmp_user_info.name, tmp_user_info.dc_date ] );
         } else 
             updateMode( "default", C.ACC_CTRL_MODES.CREATE );
     };
@@ -83,14 +87,14 @@ const SettingPageAccocuntCtrl = () => {
             updateMode( "default", C.ACC_CTRL_MODES.VIEW );
         }
         else {
-            // await requestAPIAction( `선택한 ${ user_select.length }개의 계정을 삭제할까요?`, L.removeUser, [ user_select ] );
+            await requestAPIAction( `선택한 ${ user_select.length }개의 계정을 삭제할까요?`, R.removeUser, [ user_select ] );
         }
         return;
     };
 
     const onEDITBtnClick = async () => {
         if ( mode === C.ACC_CTRL_MODES.EDIT ) {
-            // await requestAPIAction( `선택된 계정의 변경사항을 저장합니다`, L.updateUser, [ tmp_user_info ] );
+            await requestAPIAction( `선택된 계정의 변경사항을 저장합니다`, R.updateUser, [ tmp_user_info ] );
         } else {
             const [ uid ] = user_select;
             if ( !uid ) return;

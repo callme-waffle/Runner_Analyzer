@@ -11,7 +11,7 @@ encryption/
 
 # testing
 /coverage
-mocks/data/*
+*/mocks/data
 
 # production
 /build

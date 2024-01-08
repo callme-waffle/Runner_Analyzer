@@ -11,19 +11,20 @@ const listRoute = router.get(
     ( ...attrs ) => convertArguments( attrs, userController.userListGET )
 );
 
+const infoRoute = router.get(
+    setBaseURI('/user/info'), 
+    ( ...attrs ) => convertArguments( attrs, userController.userInfoGET )
+);
+
 
 // [POST]
-// const infoRoute = router.post(
-//     setBaseURI('/user/info'), 
-//     ( ...attrs ) => convertArguments( attrs, userController.userInfoGET )
-// );
-// const joinRoute = router.post(
-//     setBaseURI('/user/join'), 
-//     ( ...attrs ) => convertArguments( attrs, userController.userJoinPOST )
-// );
+const joinRoute = router.post(
+    setBaseURI('/user/join'),
+    ( ...attrs ) => convertArguments( attrs, userController.userJoinPOST )
+);
 
 export default [ 
     listRoute, 
-    // infoRoute, 
-    // joinRoute 
+    infoRoute, 
+    joinRoute 
 ];

@@ -14,6 +14,10 @@ const API_URL = {
         LIST: "/user/list",
         INFO: "/user/info",
         JOIN: "/user/join",
+        EDIT: "/user",
+        REMOVE: "/user",
+        PRIV: "/user/privilege",
+        BLOCK: "/user/block",
     }
 }
 
@@ -41,6 +45,10 @@ export const API_URL_PARSER = {
     USER: {
         LIST: () => API_URL.USER.LIST,
         INFO: ( opt ) => getParser( API_URL.USER.INFO, opt ),
-        JOIN: () => API_URL.USER.JOIN
+        JOIN: () => API_URL.USER.JOIN,
+        EDIT: () => API_URL.USER.EDIT,
+        REMOVE: () => API_URL.USER.REMOVE,
+        PRIV: () => API_URL.USER.PRIV,
+        BLOCK: () => API_URL.USER.BLOCK
     }
 }

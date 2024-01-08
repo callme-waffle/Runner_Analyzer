@@ -15,7 +15,7 @@ export const useAccountList = ( mode ) => {
      * @param { { [ keys in string ]: string } } filter 적용할 필터입니다
      * @param { number } page 조회할 페이지번호 입니다
      * @param { number } perpage_cnt 각 페이지 당 표시할 계정의 개수입니다
-     * @returns { { result: true } | { result: false, reason: string } }
+     * @returns { Promise<{ result: true } | { result: false, reason: string }> }
      */
     const requestList = async ( filter = {}, page = 1, perpage_cnt = 10 ) => {
         let request_result = {};
