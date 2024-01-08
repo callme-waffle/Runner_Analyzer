@@ -7,7 +7,7 @@ import ServiceCheckbox from "../../atom/ServiceCheckbox";
  * 
  * @param { {
  *  index?: number,
- *  mode?: "view" | "select" | "create",
+ *  mode?: "view" | "select",
  *  values: { title: string, contents: string[], selected?: boolean },
  *  animation?: boolean,
  *  onClick?: ( e: MouseEvent, v?: any ) => any

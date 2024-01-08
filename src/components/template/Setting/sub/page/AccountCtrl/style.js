@@ -35,14 +35,18 @@ export const CURDBtnArea = styled.section`
 `;
 
 export const AccountBtnArea = styled.section`
-    width: 100%;
-
     display: flex;
     align-items: flex-start;
-    gap: 1.5rem;
     align-self: stretch;
+    
+    & > .accbtn-area {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        flex: 1 0 0;
+    }
 
-    & > .accountbtn {
+    & .accountbtn {
         width: 100%;
 
         &.admin-priv-ctrl-btn {

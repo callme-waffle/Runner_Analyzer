@@ -8,7 +8,7 @@ const API_URL = {
     AUTH: {
         LOGIN: "/auth/login",
         LOGOUT: "/auth/logout",
-        INFO: "/auth/info"
+        INFO: "/auth/session"
     },
     USER: {
         LIST: "/user/list",

@@ -7,13 +7,17 @@ import ServiceBlock from "../../atom/ServiceBlock";
 /**
  * 
  * @param { {
+ *  init?: {
+ *      name?: string,
+ *      dc_date?: string
+ *  }
  *  onInputComplete?: ( { name: string, dc_date: number } ) => any
  * } & HTMLAttributes<HTMLDivElement> } ComponentProps 
  * @returns 
  */
-const UserCreateBlock = ({ onInputComplete, ...props }) => {
+const UserCreateBlock = ({ init, onInputComplete, ...props }) => {
 
-    const [ values, setValues ] = useState({ name: null, dc_date: null });
+    const [ values, setValues ] = useState({ name: init?.name, dc_date: init?.dc_date });
     useEffect(() => {
         if ( !values.name || !values.dc_date ) return;
         if ( !/[가-힣]{0,10}/.test(values.name) || !/[0-9]{4}.[0-9]{2}.[0-9]{2}/.test( values.dc_date ) ) return;

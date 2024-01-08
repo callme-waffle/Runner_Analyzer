@@ -15,24 +15,24 @@ export const ACC_CTRL_MODES = {
 }
 
 export const ACC_CTRL_BTN_TEXTS = {
-    [ SELECT ]: {
-        [ C.ACC_CTRL_MODES.SELECT ]: "취소",
+    [ CTRL_BUTTON_IDS.SELECT ]: {
+        [ ACC_CTRL_MODES.SELECT ]: "취소",
         default: "선택"
     },
-    [ ADD ]: {
+    [ CTRL_BUTTON_IDS.ADD ]: {
         [ ACC_CTRL_MODES.CREATE ]: "가입",
         default: "추가"
     },
-    [ REMOVE ]: {
+    [ CTRL_BUTTON_IDS.REMOVE ]: {
         [ ACC_CTRL_MODES.CREATE ]: "취소",
         [ ACC_CTRL_MODES.EDIT ]: "취소",
         default: "삭제"
     },
-    [ EDIT ]: { 
+    [ CTRL_BUTTON_IDS.EDIT ]: { 
         [ ACC_CTRL_MODES.EDIT ]: "적용",
         default: "수정" 
     },
-    [ ASSIGN_ADMIN_PRIV ]: { default: "관리자권한 부여" },
-    [ BLOCK_LOGIN ]: { default: "로그인 중지" },
+    [ CTRL_BUTTON_IDS.ASSIGN_ADMIN_PRIV ]: { default: "관리자권한 부여" },
+    [ CTRL_BUTTON_IDS.BLOCK_LOGIN ]: { default: "로그인 중지" },
     default: ""
 }

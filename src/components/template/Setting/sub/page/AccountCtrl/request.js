@@ -1,9 +1,9 @@
 import API from "../../../../../../connection";
 import { API_URL_PARSER } from "../../../../../../constants";
 
-export const getUserList = async ( name ) => {
+export const getUserList = async ( filter, page, perpage ) => {
     try {
-        const { data: api_result } = await API.get( API_URL_PARSER.USER.LIST({ search: name }) );
+        const { data: api_result } = await API.get( API_URL_PARSER.USER.LIST({ search: filter, page, perpage }) );
         return { result: true, ...api_result?.response }
     } catch(e) {
         if ( e.response )
